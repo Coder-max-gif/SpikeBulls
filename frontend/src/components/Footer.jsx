@@ -1,0 +1,83 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { Activity, Twitter, Youtube, Send, MessageCircle } from "lucide-react";
+import { BRAND, FOOTER_LINKS } from "../mock";
+
+export default function Footer() {
+  return (
+    <footer className="relative border-t border-white/5 bg-[#05060A]">
+      <div className="mx-auto max-w-7xl px-5 pt-16 pb-8">
+        <div className="grid lg:grid-cols-6 gap-10">
+          <div className="lg:col-span-2">
+            <Link to="/" className="flex items-center gap-2.5">
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center">
+                <Activity className="h-4 w-4 text-white" strokeWidth={2.5} />
+              </div>
+              <span className="font-display text-[17px] font-semibold tracking-tight text-white">
+                {BRAND.name}
+              </span>
+            </Link>
+            <p className="mt-4 text-[14px] text-zinc-400 leading-relaxed max-w-xs">
+              {BRAND.tagline}. Built by traders, for traders who refuse to gamble.
+            </p>
+            <div className="mt-6 flex items-center gap-2">
+              <SocialLink href={BRAND.social.twitter} icon={Twitter} />
+              <SocialLink href={BRAND.social.youtube} icon={Youtube} />
+              <SocialLink href={BRAND.social.telegram} icon={Send} />
+              <SocialLink href={BRAND.social.discord} icon={MessageCircle} />
+            </div>
+          </div>
+
+          {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
+            <div key={heading}>
+              <h4 className="text-[12px] uppercase tracking-[0.18em] text-zinc-500 mb-4">
+                {heading}
+              </h4>
+              <ul className="space-y-2.5">
+                {links.map((l) => (
+                  <li key={l.label}>
+                    {l.href.startsWith("/") ? (
+                      <Link
+                        to={l.href}
+                        className="text-[14px] text-zinc-400 hover:text-white transition-colors"
+                      >
+                        {l.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={l.href}
+                        className="text-[14px] text-zinc-400 hover:text-white transition-colors"
+                      >
+                        {l.label}
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-14 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <p className="text-[12px] text-zinc-500">
+            © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
+          </p>
+          <p className="text-[11px] text-zinc-600 max-w-2xl sm:text-right">
+            Risk disclosure: Trading derivatives carries substantial risk and may not be suitable for all investors. Past performance does not guarantee future results.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function SocialLink({ href, icon: Icon }) {
+  return (
+    <a
+      href={href}
+      className="h-9 w-9 rounded-lg glass flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/15 transition-colors"
+    >
+      <Icon className="h-4 w-4" />
+    </a>
+  );
+}
