@@ -12,10 +12,14 @@ export default function PricingPreview({ heading = true, limit = 3 }) {
   // Choose: 2 highlight items + a non-highlight in middle (or just take first N)
   const sorted = [...products].sort((a, b) => (b.highlight ? 1 : 0) - (a.highlight ? 1 : 0));
   const display = limit ? sorted.slice(0, limit) : sorted;
-  // Ensure highlight is centered for 3-card layout
-  const ordered = display.length === 3
-    ? [display.find((p) => !p.highlight) || display[0], display.find((p) => p.highlight) || display[1], display.filter((p) => p !== (display.find((p) => p.highlight))).pop() || display[2]]
-    : display;
+  // Ensure highlight card is in the middle for 3-card layout (purely visual)
+  const ordered = (() => {
+    if (display.length !== 3) return display;
+    const highlight = display.find((p) => p.highlight);
+    const rest = display.filter((p) => p.id !== highlight?.id);
+    if (!highlight || rest.length !== 2) return display;
+    return [rest[0], highlight, rest[1]];
+  })();
 
   return (
     <section id="pricing" className="relative py-24 sm:py-32">
