@@ -1,89 +1,72 @@
-from fastapi import FastAPI, APIRouter
-from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
 import logging
-from pathlib import Path
-from pydantic import BaseModel, Field, ConfigDict
-from typing import List
-import uuid
-from datetime import datetime, timezone
+from contextlib import asynccontextmanager
 
+from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
+from core.config import settings
+from core.database import close_db, ensure_indexes
+from routes.admin import router as admin_router
+from routes.auth import router as auth_router
+from routes.checkout import router as checkout_router
+from routes.contact import router as contact_router
+from routes.products import router as products_router, testimonials_router
+from routes.user import router as user_router
+from services.seed import seed_database
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-
-# Create the main app without a prefix
-app = FastAPI()
-
-# Create a router with the /api prefix
-api_router = APIRouter(prefix="/api")
-
-
-# Define Models
-class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-class StatusCheckCreate(BaseModel):
-    client_name: str
-
-# Add your routes to the router instead of directly to app
-@api_router.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.model_dump()
-    status_obj = StatusCheck(**status_dict)
-    
-    # Convert to dict and serialize datetime to ISO string for MongoDB
-    doc = status_obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
-    
-    _ = await db.status_checks.insert_one(doc)
-    return status_obj
-
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    
-    # Convert ISO string timestamps back to datetime objects
-    for check in status_checks:
-        if isinstance(check['timestamp'], str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    
-    return status_checks
-
-# Include the router in the main app
-app.include_router(api_router)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("Starting %s backend...", settings.APP_NAME)
+    try:
+        await ensure_indexes()
+        await seed_database()
+    except Exception as exc:
+        logger.exception("Startup tasks failed: %s", exc)
+    yield
+    await close_db()
+
+
+app = FastAPI(title=f"{settings.APP_NAME} API", lifespan=lifespan)
+
+
+@app.get("/api/")
+async def root():
+    return {
+        "app": settings.APP_NAME,
+        "status": "ok",
+        "stripe_enabled": settings.ENABLE_STRIPE,
+        "email_provider": settings.EMAIL_PROVIDER,
+    }
+
+
+@app.get("/api/health")
+async def health():
+    return {"status": "ok"}
+
+
+# Mount routers under /api
+app.include_router(auth_router, prefix="/api")
+app.include_router(products_router, prefix="/api")
+app.include_router(testimonials_router, prefix="/api")
+app.include_router(contact_router, prefix="/api")
+app.include_router(checkout_router, prefix="/api")
+app.include_router(user_router, prefix="/api")
+app.include_router(admin_router, prefix="/api")
+
+
+# CORS
+allow_origins = [o.strip() for o in settings.CORS_ORIGINS.split(",")] if settings.CORS_ORIGINS != "*" else ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=allow_origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

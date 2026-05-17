@@ -1,9 +1,11 @@
-// Mock data for Apex Algo - Premium Trading Products
+// Static marketing content for SpikeBulls.
+// Products, testimonials, and pricing are now served from the backend API.
+// This file only holds copy that doesn't need to be admin-editable.
 
 export const BRAND = {
-  name: "Apex Algo",
-  tagline: "Institutional-Grade Trading Technology",
-  email: "hello@apexalgo.io",
+  name: "SpikeBulls",
+  tagline: "Premium Forex Trading Technology",
+  email: "hello@spikebulls.com",
   social: {
     twitter: "#",
     youtube: "#",
@@ -261,14 +263,16 @@ export const FAQS = [
 
 export const FOOTER_LINKS = {
   Product: [
-    { label: "MT5 Indicator", href: "/products/mt5-indicator" },
+    { label: "MT5 Indicator", href: "/products/mt5-indicator-pro" },
     { label: "Algo Strategy", href: "/products/algo-strategy" },
-    { label: "Pricing", href: "/pricing" },
-    { label: "Changelog", href: "#" }
+    { label: "Forex Signals", href: "/products/forex-signals-pro" },
+    { label: "Automation Suite", href: "/products/automation-suite" },
+    { label: "All Products", href: "/products" },
+    { label: "Pricing", href: "/pricing" }
   ],
   Company: [
     { label: "About", href: "#" },
-    { label: "Performance", href: "#performance" },
+    { label: "Performance", href: "/#performance" },
     { label: "Press", href: "#" },
     { label: "Contact", href: "/contact" }
   ],

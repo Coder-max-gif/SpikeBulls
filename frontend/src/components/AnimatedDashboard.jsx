@@ -34,7 +34,7 @@ export default function AnimatedDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2 text-[11px]">
-            <span className="text-zinc-500">Apex Algo</span>
+            <span className="text-zinc-500">SpikeBulls</span>
             <span className="h-1 w-1 rounded-full bg-zinc-700" />
             <span className="text-zinc-400">v4.2</span>
           </div>

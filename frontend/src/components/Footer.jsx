@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Activity, Twitter, Youtube, Send, MessageCircle } from "lucide-react";
 import { BRAND, FOOTER_LINKS } from "../mock";
 
 export default function Footer() {
+  const location = useLocation();
+  if (location.pathname.startsWith("/admin")) return null;
   return (
     <footer className="relative border-t border-white/5 bg-[#05060A]">
       <div className="mx-auto max-w-7xl px-5 pt-16 pb-8">
