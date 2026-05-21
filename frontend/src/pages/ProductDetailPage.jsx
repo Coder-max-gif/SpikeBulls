@@ -29,8 +29,9 @@ export default function ProductDetailPage() {
   const { isAuthenticated } = useAuth();
   const [buying, setBuying] = useState(false);
   const [buyError, setBuyError] = useState("");
+  const [selectedTier, setSelectedTier] = useState(null);
 
-  const handleBuy = async () => {
+  const handleBuy = async (tierId = null) => {
     setBuyError("");
     if (!isAuthenticated) {
       navigate(`/login?next=${encodeURIComponent(`/products/${slug}`)}`);
@@ -94,28 +95,94 @@ export default function ProductDetailPage() {
                 {product.description}
               </p>
 
-              <div className="mt-7 flex items-baseline gap-3">
-                <span className="font-display text-[48px] text-white font-semibold tracking-tight">${product.price.toFixed(0)}</span>
-                {product.compare_at_price && product.compare_at_price > product.price && (
-                  <span className="text-[16px] text-zinc-500 line-through">${product.compare_at_price.toFixed(0)}</span>
-                )}
-                <span className="text-[13px] text-zinc-500">
-                  · {product.delivery_type === "membership" ? "30-day membership" : "Lifetime license"}
-                </span>
-              </div>
+              {product.subscription_tiers && product.subscription_tiers.length > 0 ? (
+                <div className="mt-7 space-y-4">
+                  <div className="grid gap-3">
+                    {product.subscription_tiers.map((tier, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedTier(index)}
+                        className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
+                          selectedTier === index
+                            ? (isViolet ? "border-violet-500 bg-violet-500/10" : "border-blue-500 bg-blue-500/10")
+                            : "border-white/10 bg-white/[0.02] hover:border-white/20"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                              selectedTier === index
+                                ? (isViolet ? "border-violet-400" : "border-blue-400")
+                                : "border-zinc-500"
+                            }`}>
+                              {selectedTier === index && (
+                                <div className={`w-2 h-2 rounded-full ${
+                                  isViolet ? "bg-violet-400" : "bg-blue-400"
+                                }`} />
+                              )}
+                            </div>
+                            <span className="font-medium text-white">{tier.name}</span>
+                            {tier.badge && (
+                              <span className="text-[11px] px-2 py-0.5 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white">
+                                {tier.badge}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="font-display text-[28px] text-white font-semibold">${tier.price.toFixed(0)}</span>
+                            {tier.compare_at_price && tier.compare_at_price > tier.price && (
+                              <span className="text-[14px] text-zinc-500 line-through">${tier.compare_at_price.toFixed(0)}</span>
+                            )}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
 
-              {buyError && <p className="mt-3 text-[13px] text-rose-300">{buyError}</p>}
+                  {buyError && <p className="mt-3 text-[13px] text-rose-300">{buyError}</p>}
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <button onClick={handleBuy} disabled={buying} className="btn-primary" style={isViolet ? {
-                  background: "linear-gradient(180deg, #8B5CF6 0%, #7C3AED 100%)",
-                  borderColor: "rgba(167,139,250,0.6)",
-                  boxShadow: "0 8px 24px -8px rgba(139,92,246,0.55), inset 0 1px 0 rgba(255,255,255,0.25)",
-                } : undefined}>
-                  {buying ? <Loader2 className="h-4 w-4 animate-spin" /> : <><ShoppingCart className="h-4 w-4" /> Buy now</>}
-                </button>
-                <Link to="/contact" className="btn-ghost">Request demo</Link>
-              </div>
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <button 
+                      onClick={() => handleBuy(selectedTier)} 
+                      disabled={buying || selectedTier === null} 
+                      className="btn-primary" 
+                      style={isViolet ? {
+                        background: "linear-gradient(180deg, #8B5CF6 0%, #7C3AED 100%)",
+                        borderColor: "rgba(167,139,250,0.6)",
+                        boxShadow: "0 8px 24px -8px rgba(139,92,246,0.55), inset 0 1px 0 rgba(255,255,255,0.25)",
+                      } : undefined}
+                    >
+                      {buying ? <Loader2 className="h-4 w-4 animate-spin" /> : <><ShoppingCart className="h-4 w-4" /> Buy now</>}
+                    </button>
+                    <Link to="/contact" className="btn-ghost">Request demo</Link>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="mt-7 flex items-baseline gap-3">
+                    <span className="font-display text-[48px] text-white font-semibold tracking-tight">${product.price.toFixed(0)}</span>
+                    {product.compare_at_price && product.compare_at_price > product.price && (
+                      <span className="text-[16px] text-zinc-500 line-through">${product.compare_at_price.toFixed(0)}</span>
+                    )}
+                    <span className="text-[13px] text-zinc-500">
+                      · {product.delivery_type === "membership" ? "30-day membership" : "Lifetime license"}
+                    </span>
+                  </div>
+
+                  {buyError && <p className="mt-3 text-[13px] text-rose-300">{buyError}</p>}
+
+                  <div className="mt-6 flex flex-wrap items-center gap-3">
+                    <button onClick={handleBuy} disabled={buying} className="btn-primary" style={isViolet ? {
+                      background: "linear-gradient(180deg, #8B5CF6 0%, #7C3AED 100%)",
+                      borderColor: "rgba(167,139,250,0.6)",
+                      boxShadow: "0 8px 24px -8px rgba(139,92,246,0.55), inset 0 1px 0 rgba(255,255,255,0.25)",
+                    } : undefined}>
+                      {buying ? <Loader2 className="h-4 w-4 animate-spin" /> : <><ShoppingCart className="h-4 w-4" /> Buy now</>}
+                    </button>
+                    <Link to="/contact" className="btn-ghost">Request demo</Link>
+                  </div>
+                </>
+              )}
 
               <ul className="mt-8 grid sm:grid-cols-2 gap-x-4 gap-y-2.5">
                 {(product.features || []).map((f) => (
@@ -174,6 +241,8 @@ export default function ProductDetailPage() {
                 <div className="text-[14.5px] text-white">
                   {product.delivery_type === "membership"
                     ? "30-day rolling membership · Telegram / Discord / Email"
+                    : product.delivery_type === "download"
+                    ? "Instant digital delivery · File download available in your dashboard"
                     : "Instant digital delivery · License key sent to your dashboard and email"}
                 </div>
               </div>

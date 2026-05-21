@@ -15,6 +15,8 @@ const BLANK = {
   platforms: [],
   images: [],
   delivery_type: "license",
+  file_path: null,
+  max_downloads: 5,
   license_duration_days: null,
   status: "active",
   highlight: false,
@@ -132,6 +134,8 @@ function ProductDrawer({ initial, onClose, onSaved }) {
       price: parseFloat(form.price) || 0,
       compare_at_price: form.compare_at_price ? parseFloat(form.compare_at_price) : null,
       license_duration_days: form.license_duration_days ? parseInt(form.license_duration_days, 10) : null,
+      max_downloads: form.max_downloads ? parseInt(form.max_downloads, 10) : null,
+      file_path: form.file_path || null,
     };
     delete payload.features_text;
     delete payload.platforms_text;
@@ -192,6 +196,12 @@ function ProductDrawer({ initial, onClose, onSaved }) {
             ]} /></L>
             <L label="License days (blank = lifetime)"><Input type="number" v={form.license_duration_days || ""} on={(v) => set("license_duration_days", v)} /></L>
           </div>
+          {form.delivery_type === "download" && (
+            <div className="grid grid-cols-2 gap-3">
+              <L label="File path (in storage/products/)"><Input v={form.file_path || ""} on={(v) => set("file_path", v)} placeholder="spikebulls-indicator.zip" /></L>
+              <L label="Max downloads"><Input type="number" v={form.max_downloads} on={(v) => set("max_downloads", v)} /></L>
+            </div>
+          )}
           <Row><L label="Features (one per line)"><Textarea v={form.features_text} on={(v) => set("features_text", v)} rows={5} /></L></Row>
           <Row><L label="Platforms (comma-separated)"><Input v={form.platforms_text} on={(v) => set("platforms_text", v)} placeholder="MetaTrader 5, VPS" /></L></Row>
           <Row><L label="Image URLs (one per line)"><Textarea v={form.images_text} on={(v) => set("images_text", v)} rows={3} placeholder="https://..." /></L></Row>

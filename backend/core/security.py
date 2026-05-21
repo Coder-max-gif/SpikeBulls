@@ -52,3 +52,23 @@ def _create_token(subject: str, extra: dict | None, expires_delta: timedelta, to
 
 def decode_token(token: str) -> dict[str, Any]:
     return jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
+
+
+def create_download_token(user_id: str, product_id: str, order_id: str | None = None) -> str:
+    return _create_token(
+        subject=user_id,
+        extra={
+            "product_id": product_id,
+            "order_id": order_id,
+            "type": "download",
+        },
+        expires_delta=timedelta(minutes=10),
+        token_type="download",
+    )
+
+
+def decode_download_token(token: str) -> dict[str, Any]:
+    payload = decode_token(token)
+    if payload.get("type") != "download":
+        raise ValueError("Invalid token type")
+    return payload

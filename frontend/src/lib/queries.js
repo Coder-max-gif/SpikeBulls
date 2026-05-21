@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "./api";
+import { MOCK_PRODUCTS, TESTIMONIALS } from "../mock";
 
 export function useProducts(category) {
   const [products, setProducts] = useState([]);
@@ -17,7 +18,16 @@ export function useProducts(category) {
           setError(null);
         }
       })
-      .catch((e) => !cancelled && setError(e))
+      .catch(() => {
+        if (!cancelled) {
+          let filtered = MOCK_PRODUCTS;
+          if (category) {
+            filtered = MOCK_PRODUCTS.filter(p => p.category === category);
+          }
+          setProducts(filtered);
+          setError(null);
+        }
+      })
       .finally(() => !cancelled && setLoading(false));
     return () => {
       cancelled = true;
@@ -39,7 +49,17 @@ export function useProduct(slug) {
     api
       .get(`/products/${slug}`)
       .then((res) => !cancelled && setProduct(res.data))
-      .catch((e) => !cancelled && setError(e))
+      .catch(() => {
+        if (!cancelled) {
+          const mockProduct = MOCK_PRODUCTS.find(p => p.slug === slug);
+          if (mockProduct) {
+            setProduct(mockProduct);
+            setError(null);
+          } else {
+            setError(new Error("Product not found"));
+          }
+        }
+      })
       .finally(() => !cancelled && setLoading(false));
     return () => {
       cancelled = true;
@@ -57,7 +77,7 @@ export function useTestimonials() {
     api
       .get("/testimonials")
       .then((r) => !cancelled && setItems(r.data))
-      .catch(() => !cancelled && setItems([]))
+      .catch(() => !cancelled && setItems(TESTIMONIALS))
       .finally(() => !cancelled && setLoading(false));
     return () => {
       cancelled = true;
@@ -68,5 +88,10 @@ export function useTestimonials() {
 
 export async function startCheckout(productIds) {
   const res = await api.post("/checkout", { product_ids: productIds });
+  return res.data;
+}
+
+export async function startBinanceCheckout(productIds) {
+  const res = await api.post("/payments/binance/create-order", { product_ids: productIds });
   return res.data;
 }

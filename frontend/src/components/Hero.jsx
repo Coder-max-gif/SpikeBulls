@@ -1,39 +1,79 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 import AnimatedDashboard from "./AnimatedDashboard";
 import GlowCube from "./GlowCube";
+import FloatingOrb from "./FloatingOrb";
+import MagneticButton from "./MagneticButton";
+import ShootingStars from "./ShootingStars";
+import QuantBackground from "./QuantBackground";
 
 export default function Hero() {
   const navigate = useNavigate();
+  const containerRef = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseX = useSpring(x, { stiffness: 400, damping: 60 });
+  const mouseY = useSpring(y, { stiffness: 400, damping: 60 });
+
+  const handleMouseMove = (e) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    x.set(e.clientX - rect.left - centerX);
+    y.set(e.clientY - rect.top - centerY);
+  };
+
   return (
-    <section className="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden bg-app">
-      <div className="absolute inset-0 grid-overlay" />
+    <section
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      className="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden bg-app"
+    >
+      <QuantBackground />
+      <ShootingStars count={16} />
 
-      {/* glow cube behind text */}
-      <div className="hidden lg:block absolute top-32 right-[-60px] opacity-90 pointer-events-none">
-        <GlowCube size={260} />
-      </div>
+      <motion.div
+        className="hidden lg:block absolute top-1/2 -translate-y-1/2 right-[-80px] opacity-95 pointer-events-none z-0"
+        style={{
+          x: useTransform(mouseX, (val) => val * 0.4),
+          y: useTransform(mouseY, (val) => val * 0.4),
+        }}
+      >
+        <FloatingOrb size={420} />
+      </motion.div>
 
-      <div className="relative mx-auto max-w-7xl px-5">
+      <motion.div
+        className="hidden lg:block absolute top-20 left-[-40px] opacity-70 pointer-events-none z-0"
+        style={{
+          x: useTransform(mouseX, (val) => val * 0.2),
+          y: useTransform(mouseY, (val) => val * 0.2),
+        }}
+      >
+        <GlowCube size={180} />
+      </motion.div>
+
+      <div className="relative mx-auto max-w-7xl px-5 z-10">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-2 w-fit mx-auto glass rounded-full px-3 py-1.5 mb-7"
+          initial={{ opacity: 0, y: 16, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.7, type: "spring" }}
+          className="flex items-center gap-2 w-fit mx-auto glass-strong rounded-full px-3 py-1.5 mb-7"
         >
-          <Sparkles className="h-3.5 w-3.5 text-blue-400" />
+          <Sparkles className="h-3.5 w-3.5 text-blue-400 animate-pulse" />
           <span className="text-[12px] text-zinc-300">
             v4.2 · Adaptive volatility engine is live
           </span>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.05 }}
-          className="font-display text-center text-[44px] sm:text-[64px] lg:text-[76px] leading-[1.02] tracking-tight font-semibold"
+          transition={{ duration: 0.8, delay: 0.1, type: "spring" }}
+          className="font-display text-center text-[44px] sm:text-[64px] lg:text-[80px] leading-[1.02] tracking-tight font-semibold"
         >
           <span className="text-gradient">Institutional-grade</span>
           <br />
@@ -42,9 +82,9 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
+          transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
           className="mt-6 text-center text-zinc-400 text-[16px] sm:text-[18px] max-w-2xl mx-auto leading-relaxed"
         >
           A precision MT5 indicator suite and a fully automated algo strategy —
@@ -52,23 +92,24 @@ export default function Hero() {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.3, type: "spring" }}
+          className="mt-8 flex flex-wrap items-center justify-center gap-4"
         >
-          <button onClick={() => navigate("/pricing")} className="btn-primary">
-            Start Trading <ArrowRight className="h-4 w-4" />
-          </button>
-          <button
+          <MagneticButton onClick={() => navigate("/pricing")}>
+            Start Trading
+            <ArrowRight className="h-4 w-4" />
+          </MagneticButton>
+          <MagneticButton
+            variant="ghost"
             onClick={() => {
               const el = document.querySelector("#products");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="btn-ghost"
           >
             See the products
-          </button>
+          </MagneticButton>
         </motion.div>
 
         <motion.div

@@ -1,119 +1,190 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Check, ArrowRight, Sparkles, Loader2 } from "lucide-react";
+import { Check, X, ArrowRight, Zap, Sparkles, Star } from "lucide-react";
 import { useProducts } from "../lib/queries";
 import { SectionHeader } from "./ProductsOverview";
+import TiltCard from "./TiltCard";
+import MagneticButton from "./MagneticButton";
 
-export default function PricingPreview({ heading = true, limit = 3 }) {
+export default function PricingPreview() {
   const navigate = useNavigate();
   const { products, loading } = useProducts();
 
-  // Choose: 2 highlight items + a non-highlight in middle (or just take first N)
-  const sorted = [...products].sort((a, b) => (b.highlight ? 1 : 0) - (a.highlight ? 1 : 0));
-  const display = limit ? sorted.slice(0, limit) : sorted;
-  // Ensure highlight card is in the middle for 3-card layout (purely visual)
-  const ordered = (() => {
-    if (display.length !== 3) return display;
-    const highlight = display.find((p) => p.highlight);
-    const rest = display.filter((p) => p.id !== highlight?.id);
-    if (!highlight || rest.length !== 2) return display;
-    return [rest[0], highlight, rest[1]];
-  })();
+  const plans = [
+    {
+      id: "basic",
+      name: "Starter",
+      description: "Perfect for new traders",
+      price: "$29",
+      period: "/month",
+      featured: false,
+      features: [
+        "Indicator Subscription (Monthly)",
+        "3–6 signals / session",
+        "Telegram + Email alerts",
+        "Basic risk guidance",
+        "Community access",
+      ],
+      accent: "blue",
+    },
+    {
+      id: "pro",
+      name: "Professional",
+      description: "Most popular choice",
+      price: "$69",
+      period: "/6 months",
+      featured: true,
+      features: [
+        "Indicator Subscription (6 Months)",
+        "Algorithm Subscription (6 Months)",
+        "All features included",
+        "Priority support",
+        "VIP Discord access",
+        "VPS setup assistance",
+        "Best value!",
+      ],
+      accent: "violet",
+    },
+    {
+      id: "enterprise",
+      name: "Elite",
+      description: "For serious traders",
+      price: "$299",
+      period: "/year",
+      featured: false,
+      features: [
+        "Indicator Lifetime License",
+        "Algorithm Lifetime License",
+        "Automation Suite License",
+        "All features included",
+        "1-on-1 onboarding",
+        "Lifetime updates",
+        "Priority feature requests",
+      ],
+      accent: "gradient",
+    },
+  ];
 
   return (
-    <section id="pricing" className="relative py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5">
-        {heading && (
-          <SectionHeader
-            eyebrow="Pricing"
-            title="Simple, transparent pricing"
-            subtitle="Lifetime licenses on most products. Signals available as a 30-day rolling membership."
-          />
-        )}
+    <section className="relative py-24 sm:py-32 overflow-hidden">
+      <div className="absolute inset-0 grid-overlay opacity-30" />
 
-        {loading ? (
-          <div className="mt-14 flex justify-center">
-            <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
-          </div>
-        ) : (
-          <div className={`mt-14 grid gap-5 ${ordered.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
-            {ordered.map((p, i) => (
-              <motion.div
-                key={p.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55, delay: i * 0.07 }}
-                className={`relative rounded-2xl p-7 flex flex-col ${
-                  p.highlight ? "glass-strong animated-border" : "glass"
-                }`}
-              >
-                {p.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="text-[11px] uppercase tracking-wider px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white border border-white/10 inline-flex items-center gap-1">
-                      <Sparkles className="h-3 w-3" /> {p.badge}
-                    </span>
-                  </div>
-                )}
+      <div className="mx-auto max-w-7xl px-5 relative z-10">
+        <SectionHeader
+          eyebrow="Pricing that scales"
+          title="Choose your edge"
+          subtitle="Flexible plans for every stage of your trading journey — from beginner to professional."
+        />
 
-                <div className="flex items-center justify-between">
-                  <h3 className="font-display text-[20px] text-white font-medium">{p.name}</h3>
-                  <span
-                    className={`text-[11px] uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                      p.delivery_type === "membership"
-                        ? "bg-violet-500/10 text-violet-300"
-                        : "bg-blue-500/10 text-blue-300"
-                    }`}
-                  >
-                    {p.delivery_type === "membership" ? "30d" : "Lifetime"}
-                  </span>
-                </div>
-
-                <p className="mt-2 text-[13.5px] text-zinc-400">{p.short_description}</p>
-
-                <div className="mt-6 flex items-baseline gap-2">
-                  <span className="font-display text-[44px] text-white font-semibold tracking-tight">
-                    ${p.price.toFixed(0)}
-                  </span>
-                  {p.compare_at_price && p.compare_at_price > p.price && (
-                    <span className="text-[14px] text-zinc-500 line-through">${p.compare_at_price.toFixed(0)}</span>
-                  )}
-                </div>
-
-                <ul className="mt-6 space-y-2.5">
-                  {(p.features || []).slice(0, 6).map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-[13.5px] text-zinc-300">
-                      <Check className="h-4 w-4 mt-0.5 shrink-0 text-blue-400" />
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex-1" />
-
-                <button
-                  onClick={() => navigate(`/products/${p.slug}`)}
-                  className={`mt-8 ${p.highlight ? "btn-primary" : "btn-ghost"}`}
+        <div className="mt-16 grid lg:grid-cols-3 gap-8 items-stretch">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.id}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: index * 0.1, type: "spring" }}
+              style={{
+                zIndex: plan.featured ? 10 : 1,
+              }}
+            >
+              <TiltCard className="h-full">
+                <div
+                  className={`relative h-full glass-strong rounded-2xl p-7 sm:p-8 overflow-hidden border-2 ${
+                    plan.featured
+                      ? "border-gradient-to-r from-blue-500/40 to-violet-500/40"
+                      : "border-white/10"
+                  }`}
                 >
-                  Get Started <ArrowRight className="h-4 w-4" />
-                </button>
-              </motion.div>
-            ))}
-          </div>
-        )}
+                  {plan.featured && (
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-violet-500" />
+                  )}
 
-        {limit && (
-          <div className="mt-10 text-center">
-            <button onClick={() => navigate("/products")} className="btn-ghost">
-              See all products <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-        )}
+                  {plan.featured && (
+                    <motion.div
+                      className="absolute -top-3 left-1/2 -translate-x-1/2"
+                      animate={{ y: [0, -4, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <div className="flex items-center gap-1.5 glass-strong rounded-full px-3 py-1">
+                        <Star className="h-3.5 w-3.5 text-yellow-400" />
+                        <span className="text-[11px] text-yellow-300 font-medium">
+                          Most Popular
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
 
-        <p className="mt-8 text-center text-[12px] text-zinc-500">
-          Lifetime licenses include free updates. Signals are billed as a 30-day rolling membership.
-        </p>
+                  <div className="mb-6">
+                    <h3 className="font-display text-[24px] text-white font-semibold">
+                      {plan.name}
+                    </h3>
+                    <p className="text-zinc-400 text-[14px] mt-1">
+                      {plan.description}
+                    </p>
+                  </div>
+
+                  <div className="mb-6">
+                    <div className="flex items-baseline gap-1">
+                      <span className="font-display text-[52px] text-white font-bold tracking-tight">
+                        {plan.price}
+                      </span>
+                      <span className="text-zinc-400 text-[16px]">{plan.period}</span>
+                    </div>
+                  </div>
+
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <div className="mt-0.5 h-4 w-4 rounded-full flex items-center justify-center bg-emerald-500/15">
+                          <Check className="h-3 w-3 text-emerald-400" />
+                        </div>
+                        <span className="text-zinc-300 text-[14px] leading-relaxed">
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <MagneticButton
+                    className="w-full !py-3"
+                    onClick={() => navigate("/pricing")}
+                    style={
+                      plan.featured
+                        ? {
+                            background:
+                              "linear-gradient(180deg, #8B5CF6 0%, #7C3AED 100%)",
+                            borderColor: "rgba(167,139,250,0.6)",
+                            boxShadow:
+                              "0 8px 24px -8px rgba(139,92,246,0.55), inset 0 1px 0 rgba(255,255,255,0.25)",
+                          }
+                        : undefined
+                    }
+                  >
+                    Get started
+                    <ArrowRight className="h-4 w-4" />
+                  </MagneticButton>
+                </div>
+              </TiltCard>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-10 text-center"
+        >
+          <button
+            onClick={() => navigate("/pricing")}
+            className="btn-ghost !py-2.5"
+          >
+            View complete pricing <ArrowRight className="h-4 w-4" />
+          </button>
+        </motion.div>
       </div>
     </section>
   );

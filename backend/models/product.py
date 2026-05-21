@@ -10,6 +10,16 @@ ProductStatus = Literal["active", "draft", "archived"]
 DeliveryType = Literal["license", "download", "membership"]
 
 
+class SubscriptionTier(BaseModel):
+    name: str  # e.g., "1 Month", "6 Months", "1 Year"
+    price: float
+    compare_at_price: float | None = None
+    license_duration_days: int  # 30, 180, 365
+    stripe_price_id: str | None = None
+    highlight: bool = False
+    badge: str | None = None
+
+
 class ProductBase(BaseModel):
     name: str
     slug: str
@@ -24,8 +34,11 @@ class ProductBase(BaseModel):
     images: list[str] = Field(default_factory=list)
     delivery_type: DeliveryType = "license"
     download_url: str | None = None
+    file_path: str | None = None
+    max_downloads: int | None = 5
     stripe_price_id: str | None = None
     license_duration_days: int | None = None  # None = lifetime
+    subscription_tiers: list[SubscriptionTier] = Field(default_factory=list)
     status: ProductStatus = "active"
     highlight: bool = False
     badge: str | None = None
@@ -49,6 +62,8 @@ class ProductUpdate(BaseModel):
     images: list[str] | None = None
     delivery_type: DeliveryType | None = None
     download_url: str | None = None
+    file_path: str | None = None
+    max_downloads: int | None = None
     stripe_price_id: str | None = None
     license_duration_days: int | None = None
     status: ProductStatus | None = None

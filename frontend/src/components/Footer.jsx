@@ -12,8 +12,8 @@ export default function Footer() {
         <div className="grid lg:grid-cols-6 gap-10">
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center">
-                <Activity className="h-4 w-4 text-white" strokeWidth={2.5} />
+              <div className="relative h-10 w-10 rounded-lg flex items-center justify-center overflow-hidden bg-white/10">
+                <img src="/spikebulls-logo.png" alt="SpikeBulls Logo" className="h-full w-full object-contain" />
               </div>
               <span className="font-display text-[17px] font-semibold tracking-tight text-white">
                 {BRAND.name}

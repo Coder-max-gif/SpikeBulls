@@ -23,3 +23,15 @@ class License(BaseModel):
     max_activations: int = 2
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class LicenseCreate(BaseModel):
+    key: str
+    user_id: str
+    user_email: str
+    product_id: str
+    product_name: str
+    order_id: str
+    status: LicenseStatus = "active"
+    expires_at: datetime | None = None
+    max_activations: int = 2

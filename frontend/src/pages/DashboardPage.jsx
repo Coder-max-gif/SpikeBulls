@@ -19,6 +19,7 @@ import { api } from "../lib/api";
 
 const TABS = [
   { id: "overview", label: "Overview", icon: Package },
+  { id: "downloads", label: "Downloads", icon: Download },
   { id: "licenses", label: "Licenses", icon: Key },
   { id: "orders", label: "Orders", icon: Receipt },
   { id: "account", label: "Account", icon: UserIcon },
@@ -32,6 +33,7 @@ export default function DashboardPage() {
   const [summary, setSummary] = useState(null);
   const [orders, setOrders] = useState([]);
   const [licenses, setLicenses] = useState([]);
+  const [downloads, setDownloads] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,12 +47,14 @@ export default function DashboardPage() {
       api.get("/me/summary"),
       api.get("/me/orders"),
       api.get("/me/licenses"),
+      api.get("/downloads/me"),
     ])
-      .then(([s, o, l]) => {
+      .then(([s, o, l, d]) => {
         if (cancelled) return;
         setSummary(s.data);
         setOrders(o.data);
         setLicenses(l.data);
+        setDownloads(d.data);
       })
       .catch(() => {})
       .finally(() => !cancelled && setLoading(false));
@@ -77,20 +81,23 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-2 border-b border-white/[0.05] pb-3">
-              {TABS.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setTab(t.id)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] transition-colors ${
-                    tab === t.id
-                      ? "bg-white/[0.06] text-white border border-white/10"
-                      : "text-zinc-400 hover:text-white border border-transparent"
-                  }`}
-                >
-                  <t.icon className="h-4 w-4" /> {t.label}
-                </button>
-              ))}
+            <div className="mt-8">
+              <div className="flex gap-1 overflow-x-auto pb-3 border-b border-white/[0.05] -mx-1 px-1">
+                {TABS.map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setTab(t.id)}
+                    className={`flex items-center gap-2 px-3.5 py-2.5 rounded-lg text-[13.5px] transition-colors whitespace-nowrap border border-transparent ${
+                      tab === t.id
+                        ? "bg-white/[0.06] text-white border-white/10"
+                        : "text-zinc-400 hover:text-white hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    <t.icon className="h-4 w-4 flex-shrink-0" />
+                    <span className="hidden sm:inline">{t.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="mt-8">
@@ -98,6 +105,8 @@ export default function DashboardPage() {
                 <div className="flex justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-zinc-500" /></div>
               ) : tab === "overview" ? (
                 <Overview summary={summary} licenses={licenses} />
+              ) : tab === "downloads" ? (
+                <Downloads downloads={downloads} />
               ) : tab === "licenses" ? (
                 <Licenses licenses={licenses} />
               ) : tab === "orders" ? (
@@ -115,16 +124,16 @@ export default function DashboardPage() {
 
 function StatCard({ label, value, icon: Icon }) {
   return (
-    <div className="glass rounded-2xl p-5">
+    <div className="glass rounded-2xl p-4 sm:p-5">
       <div className="flex items-center justify-between">
-        <span className="text-[12px] text-zinc-500">{label}</span>
+        <span className="text-[11.5px] sm:text-[12px] text-zinc-500">{label}</span>
         {Icon && (
-          <div className="h-7 w-7 rounded-lg bg-white/[0.04] border border-white/8 flex items-center justify-center text-blue-300">
+          <div className="h-7 w-7 rounded-lg bg-white/[0.04] border border-white/8 flex items-center justify-center text-blue-300 flex-shrink-0">
             <Icon className="h-3.5 w-3.5" />
           </div>
         )}
       </div>
-      <div className="mt-2 font-display text-[28px] text-white font-semibold tracking-tight">{value}</div>
+      <div className="mt-2 font-display text-[24px] sm:text-[28px] text-white font-semibold tracking-tight break-all">{value}</div>
     </div>
   );
 }
@@ -133,7 +142,7 @@ function Overview({ summary, licenses }) {
   const recent = licenses.slice(0, 3);
   return (
     <div className="space-y-6">
-      <div className="grid sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <StatCard label="Active licenses" value={summary?.active_licenses ?? 0} icon={Key} />
         <StatCard label="Paid orders" value={summary?.orders ?? 0} icon={Receipt} />
         <StatCard label="Account" value={"Active"} icon={ShieldCheck} />
@@ -177,24 +186,26 @@ function LicenseRow({ lic, compact }) {
   const expired = lic.status !== "active";
   const expires = lic.expires_at ? new Date(lic.expires_at).toLocaleDateString() : "Lifetime";
   return (
-    <li className="glass rounded-xl p-4 flex flex-wrap items-center gap-4 justify-between">
-      <div className="min-w-0">
-        <div className="text-[14.5px] text-white font-medium truncate">{lic.product_name}</div>
-        <div className="mt-1 flex items-center gap-2">
-          <code className="text-[12px] text-blue-200 bg-white/[0.04] border border-white/8 px-2 py-1 rounded-md">{lic.key}</code>
-          <button onClick={copy} className="h-7 w-7 rounded-md glass flex items-center justify-center text-zinc-400 hover:text-white">
-            {copied ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-          </button>
+    <li className="glass rounded-xl p-4">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 justify-between">
+        <div className="min-w-0 flex-1">
+          <div className="text-[14.5px] text-white font-medium truncate">{lic.product_name}</div>
+          <div className="mt-2 flex items-center gap-2">
+            <code className="text-[11px] sm:text-[12px] text-blue-200 bg-white/[0.04] border border-white/8 px-2 py-1 rounded-md break-all">{lic.key}</code>
+            <button onClick={copy} className="h-7 w-7 flex-shrink-0 rounded-md glass flex items-center justify-center text-zinc-400 hover:text-white">
+              {copied ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+            </button>
+          </div>
         </div>
+        {!compact && (
+          <div className="flex flex-wrap items-center gap-3 text-[11.5px] sm:text-[12px] text-zinc-400">
+            <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5 flex-shrink-0" /> {expires}</span>
+            <span className={`px-2 py-0.5 rounded-md flex-shrink-0 ${expired ? "bg-rose-500/10 text-rose-300" : "bg-emerald-500/10 text-emerald-300"}`}>
+              {lic.status}
+            </span>
+          </div>
+        )}
       </div>
-      {!compact && (
-        <div className="flex items-center gap-3 text-[12px] text-zinc-400">
-          <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> {expires}</span>
-          <span className={`px-2 py-0.5 rounded-md ${expired ? "bg-rose-500/10 text-rose-300" : "bg-emerald-500/10 text-emerald-300"}`}>
-            {lic.status}
-          </span>
-        </div>
-      )}
     </li>
   );
 }
@@ -205,35 +216,37 @@ function Orders({ orders }) {
   }
   return (
     <div className="glass rounded-2xl overflow-hidden">
-      <table className="w-full text-[13.5px]">
-        <thead>
-          <tr className="text-left text-zinc-500 text-[11.5px] uppercase tracking-wider border-b border-white/[0.05]">
-            <th className="px-5 py-3">Order</th>
-            <th className="px-5 py-3">Items</th>
-            <th className="px-5 py-3">Total</th>
-            <th className="px-5 py-3">Status</th>
-            <th className="px-5 py-3">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((o) => (
-            <tr key={o.id} className="border-b border-white/[0.03] last:border-0">
-              <td className="px-5 py-3 text-zinc-300 font-mono text-[12px]">{o.id.slice(0, 8)}</td>
-              <td className="px-5 py-3 text-zinc-200">{o.items.map((i) => i.name).join(", ")}</td>
-              <td className="px-5 py-3 text-white">${o.total.toFixed(2)}</td>
-              <td className="px-5 py-3">
-                <span className={`px-2 py-0.5 rounded-md text-[11px] ${
-                  o.status === "paid" ? "bg-emerald-500/10 text-emerald-300" :
-                  o.status === "pending" ? "bg-amber-500/10 text-amber-300" :
-                  "bg-rose-500/10 text-rose-300"
-                }`}>{o.status}</span>
-                {o.simulated && <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] bg-violet-500/10 text-violet-300">simulated</span>}
-              </td>
-              <td className="px-5 py-3 text-zinc-400">{new Date(o.created_at).toLocaleDateString()}</td>
+      <div className="overflow-x-auto">
+        <table className="w-full text-[13.5px] min-w-[600px]">
+          <thead>
+            <tr className="text-left text-zinc-500 text-[11.5px] uppercase tracking-wider border-b border-white/[0.05]">
+              <th className="px-4 sm:px-5 py-3">Order</th>
+              <th className="px-4 sm:px-5 py-3">Items</th>
+              <th className="px-4 sm:px-5 py-3">Total</th>
+              <th className="px-4 sm:px-5 py-3">Status</th>
+              <th className="px-4 sm:px-5 py-3">Date</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.map((o) => (
+              <tr key={o.id} className="border-b border-white/[0.03] last:border-0">
+                <td className="px-4 sm:px-5 py-3 text-zinc-300 font-mono text-[12px]">{o.id.slice(0, 8)}</td>
+                <td className="px-4 sm:px-5 py-3 text-zinc-200 break-words max-w-[200px]">{o.items.map((i) => i.name).join(", ")}</td>
+                <td className="px-4 sm:px-5 py-3 text-white whitespace-nowrap">${o.total.toFixed(2)}</td>
+                <td className="px-4 sm:px-5 py-3">
+                  <span className={`px-2 py-0.5 rounded-md text-[11px] whitespace-nowrap ${
+                    o.status === "paid" ? "bg-emerald-500/10 text-emerald-300" :
+                    o.status === "pending" ? "bg-amber-500/10 text-amber-300" :
+                    "bg-rose-500/10 text-rose-300"
+                  }`}>{o.status}</span>
+                  {o.simulated && <span className="ml-1 sm:ml-2 px-1.5 py-0.5 rounded text-[10px] whitespace-nowrap bg-violet-500/10 text-violet-300">simulated</span>}
+                </td>
+                <td className="px-4 sm:px-5 py-3 text-zinc-400 whitespace-nowrap">{new Date(o.created_at).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -279,6 +292,67 @@ function Account({ user, updateProfile, onLogout }) {
         </div>
       </form>
     </div>
+  );
+}
+
+function Downloads({ downloads }) {
+  const [downloading, setDownloading] = useState({});
+
+  const handleDownload = async (productId) => {
+    try {
+      setDownloading((prev) => ({ ...prev, [productId]: true }));
+      const res = await api.get(`/downloads/token/${productId}`);
+      window.location.href = `/api/downloads/${res.data.download_token}`;
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.detail || "Download failed");
+    } finally {
+      setDownloading((prev) => ({ ...prev, [productId]: false }));
+    }
+  };
+
+  if (downloads.length === 0) {
+    return <EmptyState message="No downloadable products yet. Purchase a product to get started." cta={{ to: "/products", label: "Browse products" }} />;
+  }
+
+  return (
+    <ul className="space-y-2">
+      {downloads.map((item) => (
+        <li key={item.product.id} className="glass rounded-xl p-4">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 justify-between">
+            <div className="min-w-0 flex-1">
+              <div className="text-[14.5px] text-white font-medium truncate">{item.product.name}</div>
+              <div className="mt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-[11.5px] sm:text-[12px] text-zinc-400">
+                <span className="flex items-center gap-1 flex-shrink-0">
+                  <Download className="h-3.5 w-3.5" />
+                  {item.download_count}/{item.max_downloads} downloads used
+                </span>
+                <span className={`px-2 py-0.5 rounded-md flex-shrink-0 ${
+                  new Date(item.order.created_at)
+                    ? "bg-emerald-500/10 text-emerald-300"
+                    : "bg-zinc-500/10 text-zinc-300"
+                }`}>
+                  Purchased {new Date(item.order.created_at).toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => handleDownload(item.product.id)}
+              disabled={downloading[item.product.id] || item.download_count >= item.max_downloads}
+              className="btn-primary !py-2 !px-4 !text-[13px] flex items-center gap-2 w-full sm:w-auto justify-center"
+            >
+              {downloading[item.product.id] ? (
+                <><Loader2 className="h-4 w-4 animate-spin" /> Downloading...</>
+              ) : item.download_count >= item.max_downloads ? (
+                "Limit reached"
+              ) : (
+                <><Download className="h-4 w-4" /> Download</>
+              )}
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }
 

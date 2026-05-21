@@ -33,6 +33,13 @@ class Settings:
     STRIPE_WEBHOOK_SECRET: str = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
     STRIPE_SUCCESS_URL: str = os.environ.get("STRIPE_SUCCESS_URL", "http://localhost:3000/checkout/success")
     STRIPE_CANCEL_URL: str = os.environ.get("STRIPE_CANCEL_URL", "http://localhost:3000/checkout/cancel")
+    
+    # Binance Pay
+    BINANCE_PAY_API_KEY: str = os.environ.get("BINANCE_PAY_API_KEY", "")
+    BINANCE_PAY_SECRET_KEY: str = os.environ.get("BINANCE_PAY_SECRET_KEY", "")
+    BINANCE_PAY_WEBHOOK_SECRET: str = os.environ.get("BINANCE_PAY_WEBHOOK_SECRET", "")
+    BINANCE_PAY_MERCHANT_ID: str = os.environ.get("BINANCE_PAY_MERCHANT_ID", "")
+    BINANCE_PAY_BASE_URL: str = os.environ.get("BINANCE_PAY_BASE_URL", "https://bpay.binanceapi.com")
 
     # Email
     EMAIL_PROVIDER: str = os.environ.get("EMAIL_PROVIDER", "console")

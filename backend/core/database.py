@@ -30,3 +30,6 @@ async def ensure_indexes() -> None:
     await db.orders.create_index("id", unique=True)
     await db.contact_submissions.create_index("created_at")
     await db.email_outbox.create_index("created_at")
+    await db.download_logs.create_index("user_id")
+    await db.download_logs.create_index("product_id")
+    await db.download_logs.create_index("created_at")

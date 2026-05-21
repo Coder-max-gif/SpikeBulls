@@ -1,12 +1,24 @@
 from datetime import datetime, timezone
+from pathlib import Path
+import uuid
+import os
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
+from fastapi.responses import JSONResponse
 
 from core.database import get_db
 from core.deps import get_current_admin
 from models.contact import Testimonial, TestimonialCreate
 from models.product import Product, ProductCreate, ProductUpdate
 from services.seed import generate_license_key
+
+STORAGE_DIR = Path(__file__).parent.parent / "storage"
+PRODUCT_IMAGES_DIR = STORAGE_DIR / "product-images"
+PRODUCTS_DIR = STORAGE_DIR / "products"
+
+ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/gif", "image/webp"}
+ALLOWED_DOWNLOAD_TYPES = {"application/zip", "application/x-zip-compressed", "application/octet-stream"}
+MAX_FILE_SIZE = 50 * 1024 * 1024
 
 router = APIRouter(prefix="/admin", tags=["admin"], dependencies=[Depends(get_current_admin)])
 
@@ -176,3 +188,68 @@ async def admin_delete_testimonial(tid: str):
     db = get_db()
     await db.testimonials.delete_one({"id": tid})
     return {"ok": True}
+
+
+# ---- File Upload ----
+@router.post("/products/{product_id}/upload")
+async def admin_upload_product_file(
+    product_id: str,
+    file: UploadFile = File(...),
+    type: str = Form(...)
+):
+    db = get_db()
+    
+    product = await db.products.find_one({"id": product_id})
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    if type not in ("image", "download"):
+        raise HTTPException(status_code=400, detail="Invalid type. Must be 'image' or 'download'")
+    
+    content = await file.read()
+    
+    if len(content) > MAX_FILE_SIZE:
+        raise HTTPException(status_code=400, detail=f"File too large. Max {MAX_FILE_SIZE // (1024*1024)}MB")
+    
+    file_ext = Path(file.filename).suffix.lower() if file.filename else ".bin"
+    unique_id = str(uuid.uuid4())[:8]
+    safe_filename = f"{unique_id}_{file.filename.replace(' ', '_') if file.filename else f'file{file_ext}'}"
+    
+    if type == "image":
+        if file.content_type not in ALLOWED_IMAGE_TYPES:
+            raise HTTPException(status_code=400, detail=f"Invalid image type. Allowed: {', '.join(ALLOWED_IMAGE_TYPES)}")
+        save_dir = PRODUCT_IMAGES_DIR
+        save_path = save_dir / safe_filename
+        field_to_update = "images"
+    else:
+        if file.content_type not in ALLOWED_DOWNLOAD_TYPES and not file_ext == ".zip":
+            raise HTTPException(status_code=400, detail=f"Invalid download type. Must be ZIP file")
+        save_dir = PRODUCTS_DIR
+        save_path = save_dir / safe_filename
+        field_to_update = "file_path"
+    
+    save_dir.mkdir(parents=True, exist_ok=True)
+    
+    with open(save_path, "wb") as f:
+        f.write(content)
+    
+    updates = {"updated_at": datetime.now(timezone.utc)}
+    
+    if type == "image":
+        current_images = product.get("images", [])
+        current_images.append(safe_filename)
+        updates["images"] = current_images
+    else:
+        updates["file_path"] = safe_filename
+        updates["delivery_type"] = "download"
+    
+    await db.products.update_one({"id": product_id}, {"$set": updates})
+    
+    updated_product = await db.products.find_one({"id": product_id})
+    
+    return {
+        "ok": True,
+        "file_path": safe_filename,
+        "type": type,
+        "product": _clean(updated_product)
+    }
