@@ -37,7 +37,7 @@ export default function AnimatedDashboard() {
         className="relative glass-strong rounded-2xl p-5 overflow-hidden"
         style={{
           boxShadow:
-            "0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05), 0 20px 40px -10px rgba(255,215,0,0.08)",
+            "0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(15,23,42,0.07), 0 20px 40px -10px rgba(255,215,0,0.08)",
           transform: "perspective(1000px)",
         }}
       >
@@ -49,24 +49,24 @@ export default function AnimatedDashboard() {
               <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
             </div>
-            <div className="flex items-center gap-2 text-[12px] text-zinc-400">
-              <span className="font-medium text-white">XAU/USD</span>
-              <span className="text-zinc-500">· M15</span>
-              <span className="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300">LIVE</span>
+            <div className="flex items-center gap-2 text-[12px] text-slate-600">
+              <span className="font-medium text-slate-900">XAU/USD</span>
+              <span className="text-slate-500">· M15</span>
+              <span className="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600">LIVE</span>
             </div>
             <div className="hidden sm:flex items-center gap-2 ml-4">
-              <span className={`text-lg font-bold ${priceDirection === 'up' ? 'text-emerald-400' : 'text-rose-400'}`}>
+              <span className={`text-lg font-bold ${priceDirection === 'up' ? 'text-emerald-400' : 'text-rose-600'}`}>
                 ${currentPrice.toLocaleString()}
               </span>
-              <span className={`text-xs px-2 py-0.5 rounded ${priceDirection === 'up' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}`}>
+              <span className={`text-xs px-2 py-0.5 rounded ${priceDirection === 'up' ? 'bg-emerald-500/20 text-emerald-600' : 'bg-rose-500/20 text-rose-600'}`}>
                 {priceDirection === 'up' ? '+' : '-'}{priceChange}%
               </span>
             </div>
           </div>
           <div className="flex items-center gap-2 text-[11px]">
-            <span className="text-zinc-500">SpikeBulls</span>
+            <span className="text-slate-500">SpikeBulls</span>
             <span className="h-1 w-1 rounded-full bg-zinc-700" />
-            <span className="text-zinc-400">v5.0</span>
+            <span className="text-slate-600">v5.0</span>
           </div>
         </div>
 
@@ -77,7 +77,7 @@ export default function AnimatedDashboard() {
         </div>
 
         {/* chart area with 3D effects */}
-        <div className="relative rounded-xl bg-[#0A0C13] border border-white/5 p-4 overflow-hidden">
+        <div className="relative rounded-xl bg-slate-50 border border-slate-200 p-4 overflow-hidden">
           <div className="absolute inset-0 grid-overlay opacity-60" />
           <svg viewBox="0 0 600 240" className="relative w-full h-[200px] sm:h-[240px]">
             <defs>
@@ -109,7 +109,7 @@ export default function AnimatedDashboard() {
                 x2="600"
                 y1={50 + i * 50}
                 y2={50 + i * 50}
-                stroke="rgba(255,255,255,0.04)"
+                stroke="rgba(15,23,42,0.06)"
                 strokeDasharray="3 4"
               />
             ))}
@@ -175,11 +175,11 @@ export default function AnimatedDashboard() {
             transition={{ delay: 0.8, duration: 0.5 }}
             className="absolute top-4 right-4 glass rounded-lg px-3 py-2 text-[11px]"
             style={{
-              boxShadow: "0 10px 30px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)",
+              boxShadow: "0 10px 30px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(15,23,42,0.10)",
             }}
           >
-            <div className="text-zinc-400">Signal · BUY</div>
-            <div className="text-white font-medium">2345.67 → 2389.42</div>
+            <div className="text-slate-600">Signal · BUY</div>
+            <div className="text-slate-900 font-medium">2345.67 → 2389.42</div>
             <div className="text-amber-400 flex items-center gap-1 mt-0.5">
               <TrendingUp className="h-3 w-3" /> +437 pips
             </div>
@@ -211,8 +211,8 @@ export default function AnimatedDashboard() {
             <img src="/spikebulls-logo.png" alt="SpikeBulls Logo" className="h-full w-full object-contain" />
           </div>
           <div>
-            <div className="text-[10px] text-zinc-500">SpikeBulls</div>
-            <div className="text-[13px] text-white font-medium">Gold Trading</div>
+            <div className="text-[10px] text-slate-500">SpikeBulls</div>
+            <div className="text-[13px] text-slate-900 font-medium">Gold Trading</div>
           </div>
         </div>
       </motion.div>
@@ -230,8 +230,8 @@ export default function AnimatedDashboard() {
         <div className="flex items-center gap-2">
           <Circle className="h-2 w-2 fill-amber-400 text-amber-400" />
           <div>
-            <div className="text-[10px] text-zinc-500">Latency</div>
-            <div className="text-[13px] text-white font-medium">28ms</div>
+            <div className="text-[10px] text-slate-500">Latency</div>
+            <div className="text-[13px] text-slate-900 font-medium">28ms</div>
           </div>
         </div>
       </motion.div>
@@ -263,11 +263,11 @@ function Stat({ label, value, delta, up }) {
       whileHover={{ scale: 1.02, y: -2 }}
       transition={{ type: "spring", stiffness: 400 }}
     >
-      <div className="text-[11px] text-zinc-500">{label}</div>
-      <div className="text-[18px] text-white font-medium font-display mt-0.5">{value}</div>
+      <div className="text-[11px] text-slate-500">{label}</div>
+      <div className="text-[18px] text-slate-900 font-medium font-display mt-0.5">{value}</div>
       <div
         className={`text-[11px] mt-0.5 flex items-center gap-1 ${
-          up ? "text-emerald-400" : "text-rose-400"
+          up ? "text-emerald-400" : "text-rose-600"
         }`}
       >
         {up ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
@@ -280,8 +280,8 @@ function Stat({ label, value, delta, up }) {
 function MiniMetric({ label, value }) {
   return (
     <div className="flex items-center justify-between glass rounded-lg px-3 py-2">
-      <span className="text-[11px] text-zinc-500">{label}</span>
-      <span className="text-[13px] text-white font-medium">{value}</span>
+      <span className="text-[11px] text-slate-500">{label}</span>
+      <span className="text-[13px] text-slate-900 font-medium">{value}</span>
     </div>
   );
 }

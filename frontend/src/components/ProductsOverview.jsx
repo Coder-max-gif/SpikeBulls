@@ -34,7 +34,7 @@ export default function ProductsOverview() {
 
         {loading ? (
           <div className="mt-14 flex justify-center">
-            <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+            <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
           </div>
         ) : (
           <div className="mt-14 grid lg:grid-cols-2 gap-5">
@@ -60,8 +60,8 @@ export default function ProductsOverview() {
                         <div
                           className={`h-11 w-11 rounded-xl flex items-center justify-center border ${
                             accent === "blue"
-                              ? "bg-blue-500/10 border-blue-400/30 text-blue-300"
-                              : "bg-violet-500/10 border-violet-400/30 text-violet-300"
+                              ? "bg-blue-500/10 border-blue-400/30 text-blue-600"
+                              : "bg-violet-500/10 border-violet-400/30 text-violet-600"
                           }`}
                         >
                           <Icon className="h-5 w-5" />
@@ -70,7 +70,7 @@ export default function ProductsOverview() {
                           {(p.platforms || []).slice(0, 3).map((pl) => (
                             <span
                               key={pl}
-                              className="text-[11px] text-zinc-400 px-2 py-1 rounded-md bg-white/[0.04] border border-white/5"
+                              className="text-[11px] text-slate-600 px-2 py-1 rounded-md bg-slate-100 border border-slate-200"
                             >
                               {pl}
                             </span>
@@ -78,15 +78,15 @@ export default function ProductsOverview() {
                         </div>
                       </div>
 
-                      <h3 className="mt-6 font-display text-[28px] sm:text-[32px] text-white font-semibold tracking-tight">
+                      <h3 className="mt-6 font-display text-[28px] sm:text-[32px] text-slate-900 font-semibold tracking-tight">
                         {p.name}
                       </h3>
-                      <p className="mt-2 text-zinc-400 text-[15px]">{p.short_description}</p>
-                      <p className="mt-4 text-zinc-500 text-[14px] leading-relaxed line-clamp-3">{p.description}</p>
+                      <p className="mt-2 text-slate-600 text-[15px]">{p.short_description}</p>
+                      <p className="mt-4 text-slate-500 text-[14px] leading-relaxed line-clamp-3">{p.description}</p>
 
                       <ul className="mt-6 grid sm:grid-cols-2 gap-x-4 gap-y-2.5">
                         {(p.features || []).slice(0, 5).map((f) => (
-                          <li key={f} className="flex items-start gap-2 text-[13.5px] text-zinc-300">
+                          <li key={f} className="flex items-start gap-2 text-[13.5px] text-slate-700">
                             <Check className={`h-4 w-4 mt-0.5 shrink-0 ${accent === "blue" ? "text-blue-400" : "text-violet-400"}`} />
                             <span>{f}</span>
                           </li>
@@ -124,15 +124,15 @@ export function SectionHeader({ eyebrow, title, subtitle, align = "center" }) {
   return (
     <div className={align === "center" ? "max-w-2xl mx-auto text-center" : "max-w-2xl"}>
       {eyebrow && (
-        <div className="inline-flex glass rounded-full px-3 py-1 text-[11.5px] uppercase tracking-[0.18em] text-zinc-400">
+        <div className="inline-flex glass rounded-full px-3 py-1 text-[11.5px] uppercase tracking-[0.18em] text-slate-600">
           {eyebrow}
         </div>
       )}
-      <h2 className="mt-5 font-display text-[34px] sm:text-[44px] text-white font-semibold tracking-tight leading-[1.08]">
+      <h2 className="mt-5 font-display text-[34px] sm:text-[44px] text-slate-900 font-semibold tracking-tight leading-[1.08]">
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-zinc-400 text-[16px] leading-relaxed">{subtitle}</p>
+        <p className="mt-4 text-slate-600 text-[16px] leading-relaxed">{subtitle}</p>
       )}
     </div>
   );

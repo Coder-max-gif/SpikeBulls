@@ -11,7 +11,7 @@ const INDICATORS = [
   { name: "MA", base: 1.085, range: 0.015 },
 ];
 
-function RandomNumber({ min = 0, max = 1, decimals = 4, interval = 500, prefix = "", suffix = "", colorClass = "text-blue-300/70" }) {
+function RandomNumber({ min = 0, max = 1, decimals = 4, interval = 500, prefix = "", suffix = "", colorClass = "text-blue-600/70" }) {
   const [value, setValue] = useState((Math.random() * (max - min) + min).toFixed(decimals));
 
   useEffect(() => {
@@ -45,9 +45,9 @@ function PriceTicker({ currency, basePrice = 1.08 }) {
   }, [price]);
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 glass-strong/30 rounded-md border border-white/5 text-[11px] sm:text-[13px]">
-      <span className="font-mono text-violet-300/80">{currency}</span>
-      <span className={`font-mono ${isUp ? "text-emerald-300/90" : "text-rose-300/90"}`}>
+    <div className="flex items-center gap-2 px-4 py-2 glass-strong/30 rounded-md border border-slate-200 text-[11px] sm:text-[13px]">
+      <span className="font-mono text-violet-600/80">{currency}</span>
+      <span className={`font-mono ${isUp ? "text-emerald-600/90" : "text-rose-600/90"}`}>
         {price}
       </span>
     </div>
@@ -94,7 +94,7 @@ export default function QuantBackground() {
                     max={200}
                     decimals={2}
                     interval={150 + Math.random() * 350}
-                    colorClass="text-blue-300/70"
+                    colorClass="text-blue-600/70"
                   />
                 )}
               </div>
@@ -130,7 +130,7 @@ export default function QuantBackground() {
         {INDICATORS.map((ind, i) => (
           <div
             key={ind.name}
-            className="text-[11px] sm:text-[13px] font-mono text-zinc-400/80 glass-strong/25 px-4 py-2 rounded-full border border-white/6"
+            className="text-[11px] sm:text-[13px] font-mono text-slate-600/80 glass-strong/25 px-4 py-2 rounded-full border border-slate-200"
           >
             {ind.name}:{" "}
             <RandomNumber
@@ -165,13 +165,13 @@ export default function QuantBackground() {
             ease: "easeInOut",
           }}
         >
-          <span className="text-violet-300/70 mr-2">{item.currency}</span>
+          <span className="text-violet-600/70 mr-2">{item.currency}</span>
           <RandomNumber
             min={item.base - item.base * 0.015}
             max={item.base + item.base * 0.015}
             decimals={item.currency === "BTC" || item.currency === "SPX" || item.currency === "USD/JPY" ? 2 : 4}
             interval={400 + i * 150}
-            colorClass="text-emerald-300/80"
+            colorClass="text-emerald-600/80"
           />
         </motion.div>
       ))}

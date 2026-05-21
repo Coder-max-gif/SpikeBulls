@@ -94,7 +94,7 @@ export default function PricingPreview() {
                   className={`relative h-full glass-strong rounded-2xl p-7 sm:p-8 overflow-hidden border-2 ${
                     plan.featured
                       ? "border-gradient-to-r from-blue-500/40 to-violet-500/40"
-                      : "border-white/10"
+                      : "border-slate-200"
                   }`}
                 >
                   {plan.featured && (
@@ -108,8 +108,8 @@ export default function PricingPreview() {
                       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                     >
                       <div className="flex items-center gap-1.5 glass-strong rounded-full px-3 py-1">
-                        <Star className="h-3.5 w-3.5 text-yellow-400" />
-                        <span className="text-[11px] text-yellow-300 font-medium">
+                        <Star className="h-3.5 w-3.5 text-yellow-500" />
+                        <span className="text-[11px] text-yellow-600 font-medium">
                           Most Popular
                         </span>
                       </div>
@@ -117,20 +117,20 @@ export default function PricingPreview() {
                   )}
 
                   <div className="mb-6">
-                    <h3 className="font-display text-[24px] text-white font-semibold">
+                    <h3 className="font-display text-[24px] text-slate-900 font-semibold">
                       {plan.name}
                     </h3>
-                    <p className="text-zinc-400 text-[14px] mt-1">
+                    <p className="text-slate-600 text-[14px] mt-1">
                       {plan.description}
                     </p>
                   </div>
 
                   <div className="mb-6">
                     <div className="flex items-baseline gap-1">
-                      <span className="font-display text-[52px] text-white font-bold tracking-tight">
+                      <span className="font-display text-[52px] text-slate-900 font-bold tracking-tight">
                         {plan.price}
                       </span>
-                      <span className="text-zinc-400 text-[16px]">{plan.period}</span>
+                      <span className="text-slate-600 text-[16px]">{plan.period}</span>
                     </div>
                   </div>
 
@@ -140,7 +140,7 @@ export default function PricingPreview() {
                         <div className="mt-0.5 h-4 w-4 rounded-full flex items-center justify-center bg-emerald-500/15">
                           <Check className="h-3 w-3 text-emerald-400" />
                         </div>
-                        <span className="text-zinc-300 text-[14px] leading-relaxed">
+                        <span className="text-slate-700 text-[14px] leading-relaxed">
                           {feature}
                         </span>
                       </li>

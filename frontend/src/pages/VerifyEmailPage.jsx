@@ -33,8 +33,8 @@ export default function VerifyEmailPage() {
       <div className="flex flex-col items-center text-center">
         {state === "verifying" && <Loader2 className="h-8 w-8 text-blue-400 animate-spin" />}
         {state === "ok" && <CheckCircle2 className="h-10 w-10 text-emerald-400" />}
-        {state === "error" && <XCircle className="h-10 w-10 text-rose-400" />}
-        <p className="mt-4 text-zinc-200 text-[14.5px]">{message || "Verifying..."}</p>
+        {state === "error" && <XCircle className="h-10 w-10 text-rose-600" />}
+        <p className="mt-4 text-slate-800 text-[14.5px]">{message || "Verifying..."}</p>
         <Link to="/dashboard" className="mt-6 btn-primary">Go to dashboard</Link>
       </div>
     </AuthShell>

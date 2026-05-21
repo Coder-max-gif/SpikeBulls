@@ -37,8 +37,8 @@ export default function HowItWorks() {
                   </div>
                 </div>
                 <div className="mt-6 text-center max-w-sm mx-auto">
-                  <h3 className="font-display text-[22px] text-white font-medium">{s.title}</h3>
-                  <p className="mt-2 text-[14px] text-zinc-400 leading-relaxed">{s.desc}</p>
+                  <h3 className="font-display text-[22px] text-slate-900 font-medium">{s.title}</h3>
+                  <p className="mt-2 text-[14px] text-slate-600 leading-relaxed">{s.desc}</p>
                 </div>
               </motion.div>
             ))}

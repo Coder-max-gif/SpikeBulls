@@ -42,9 +42,9 @@ export default function Performance() {
           >
             <div className="flex items-start justify-between mb-4">
               <div>
-                <div className="text-[12px] text-zinc-500">Equity Curve · 12M</div>
+                <div className="text-[12px] text-slate-500">Equity Curve · 12M</div>
                 <div className="flex items-baseline gap-3 mt-1">
-                  <div className="font-display text-[34px] text-white font-semibold tracking-tight">
+                  <div className="font-display text-[34px] text-slate-900 font-semibold tracking-tight">
                     <AnimatedNumber value="+184.2%" />
                   </div>
                   <span className="text-emerald-400 text-[13px] flex items-center gap-1">
@@ -58,8 +58,8 @@ export default function Performance() {
                     key={t}
                     className={`text-[11px] px-2 py-1 rounded-md border ${
                       t === "1Y"
-                        ? "bg-white/[0.06] border-white/10 text-white"
-                        : "border-transparent text-zinc-500"
+                        ? "bg-slate-200 border-slate-200 text-slate-900"
+                        : "border-transparent text-slate-500"
                     }`}
                   >
                     {t}
@@ -68,7 +68,7 @@ export default function Performance() {
               </div>
             </div>
 
-            <div className="relative rounded-xl bg-[#0A0C13] border border-white/5 p-4 overflow-hidden">
+            <div className="relative rounded-xl bg-slate-50 border border-slate-200 p-4 overflow-hidden">
               <div className="absolute inset-0 grid-overlay opacity-50" />
               <svg viewBox={`0 0 ${curve.w} ${curve.h}`} className="relative w-full h-[220px]">
                 <defs>
@@ -88,7 +88,7 @@ export default function Performance() {
                     x2={curve.w}
                     y1={40 + i * 50}
                     y2={40 + i * 50}
-                    stroke="rgba(255,255,255,0.05)"
+                    stroke="rgba(15,23,42,0.07)"
                     strokeDasharray="3 4"
                   />
                 ))}
@@ -125,13 +125,13 @@ export default function Performance() {
           >
             {PERFORMANCE_METRICS.map((m) => (
               <div key={m.label} className="glass rounded-2xl p-5">
-                <div className="text-[12px] text-zinc-500">{m.label}</div>
-                <div className="mt-1 font-display text-[26px] text-white font-semibold tracking-tight">
+                <div className="text-[12px] text-slate-500">{m.label}</div>
+                <div className="mt-1 font-display text-[26px] text-slate-900 font-semibold tracking-tight">
                   <AnimatedNumber value={m.value} />
                 </div>
                 <div
                   className={`text-[11px] mt-1 flex items-center gap-1 ${
-                    m.trend === "up" ? "text-emerald-400" : "text-rose-400"
+                    m.trend === "up" ? "text-emerald-400" : "text-rose-600"
                   }`}
                 >
                   {m.trend === "up" ? (
@@ -146,7 +146,7 @@ export default function Performance() {
           </motion.div>
         </div>
 
-        <p className="mt-10 text-center text-[12px] text-zinc-500 max-w-2xl mx-auto">
+        <p className="mt-10 text-center text-[12px] text-slate-500 max-w-2xl mx-auto">
           Results shown reflect a live forward-tested portfolio. Trading carries risk; past performance does not guarantee future results.
         </p>
       </div>

@@ -17,7 +17,7 @@ export default function Testimonials() {
 
         {loading ? (
           <div className="mt-14 flex justify-center">
-            <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+            <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
           </div>
         ) : (
           <div className="mt-14 grid sm:grid-cols-2 gap-5">
@@ -33,17 +33,17 @@ export default function Testimonials() {
                 <Quote className="absolute top-5 right-5 h-6 w-6 text-blue-400/20" />
                 <div className="flex items-center gap-1 mb-4">
                   {Array.from({ length: t.rating || 5 }).map((_, i2) => (
-                    <Star key={i2} className="h-3.5 w-3.5 fill-blue-300 text-blue-300" />
+                    <Star key={i2} className="h-3.5 w-3.5 fill-blue-300 text-blue-600" />
                   ))}
                 </div>
-                <p className="text-[15px] text-zinc-200 leading-relaxed">“{t.quote}”</p>
-                <div className="mt-6 flex items-center gap-3 pt-5 border-t border-white/5">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500/30 to-violet-500/30 border border-white/10 flex items-center justify-center text-white font-medium text-sm">
+                <p className="text-[15px] text-slate-800 leading-relaxed">“{t.quote}”</p>
+                <div className="mt-6 flex items-center gap-3 pt-5 border-t border-slate-200">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500/30 to-violet-500/30 border border-slate-200 flex items-center justify-center text-slate-900 font-medium text-sm">
                     {t.name.split(" ").map((n) => n[0]).join("")}
                   </div>
                   <div>
-                    <div className="text-[14px] text-white font-medium">{t.name}</div>
-                    <div className="text-[12px] text-zinc-500">{t.role}</div>
+                    <div className="text-[14px] text-slate-900 font-medium">{t.name}</div>
+                    <div className="text-[12px] text-slate-500">{t.role}</div>
                   </div>
                 </div>
               </motion.div>

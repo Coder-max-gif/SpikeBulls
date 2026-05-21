@@ -26,7 +26,7 @@ export default function Features() {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
               >
-                <TiltCard className="group relative glass rounded-2xl p-6 overflow-hidden hover:border-white/15 transition-all">
+                <TiltCard className="group relative glass rounded-2xl p-6 overflow-hidden hover:border-slate-300 transition-all">
                   {/* hover glow */}
                   <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                     style={{
@@ -34,13 +34,13 @@ export default function Features() {
                         "radial-gradient(400px circle at var(--x, 50%) var(--y, 0%), rgba(96,165,250,0.12), transparent 50%)",
                     }}
                   />
-                  <div className="h-11 w-11 rounded-xl flex items-center justify-center bg-gradient-to-br from-blue-500/15 to-violet-500/15 border border-white/10 text-blue-300">
+                  <div className="h-11 w-11 rounded-xl flex items-center justify-center bg-gradient-to-br from-blue-500/15 to-violet-500/15 border border-slate-200 text-blue-600">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </div>
-                  <h3 className="mt-5 font-display text-[20px] text-white font-medium">
+                  <h3 className="mt-5 font-display text-[20px] text-slate-900 font-medium">
                     {f.title}
                   </h3>
-                  <p className="mt-2 text-[14px] text-zinc-400 leading-relaxed">{f.desc}</p>
+                  <p className="mt-2 text-[14px] text-slate-600 leading-relaxed">{f.desc}</p>
                 </TiltCard>
               </motion.div>
             );

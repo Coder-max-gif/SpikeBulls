@@ -34,8 +34,8 @@ export default function ForgotPasswordPage() {
         <button type="submit" disabled={loading} className="btn-primary w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Send reset link <ArrowRight className="h-4 w-4" /></>}
         </button>
-        <p className="text-center text-[13px] text-zinc-500">
-          Remembered it? <Link to="/login" className="text-blue-300 hover:text-blue-200">Sign in</Link>
+        <p className="text-center text-[13px] text-slate-500">
+          Remembered it? <Link to="/login" className="text-blue-600 hover:text-blue-700">Sign in</Link>
         </p>
       </form>
     </AuthShell>

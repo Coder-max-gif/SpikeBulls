@@ -40,8 +40,8 @@ export default function ResetPasswordPage() {
         <button type="submit" disabled={loading} className="btn-primary w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Update password <ArrowRight className="h-4 w-4" /></>}
         </button>
-        <p className="text-center text-[13px] text-zinc-500">
-          <Link to="/login" className="text-blue-300 hover:text-blue-200">Back to sign in</Link>
+        <p className="text-center text-[13px] text-slate-500">
+          <Link to="/login" className="text-blue-600 hover:text-blue-700">Back to sign in</Link>
         </p>
       </form>
     </AuthShell>

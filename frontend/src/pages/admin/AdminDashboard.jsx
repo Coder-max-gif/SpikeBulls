@@ -24,14 +24,14 @@ export default function AdminDashboard() {
   }, []);
 
   if (loading) {
-    return <div className="flex justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-zinc-500" /></div>;
+    return <div className="flex justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-slate-500" /></div>;
   }
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-display text-[32px] text-white font-semibold tracking-tight">Overview</h1>
-        <p className="text-zinc-400 text-[14px] mt-1">A snapshot of the SpikeBulls platform.</p>
+        <h1 className="font-display text-[32px] text-slate-900 font-semibold tracking-tight">Overview</h1>
+        <p className="text-slate-600 text-[14px] mt-1">A snapshot of the SpikeBulls platform.</p>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -48,16 +48,16 @@ export default function AdminDashboard() {
           {recentOrders.length === 0 ? (
             <Empty msg="No orders yet." />
           ) : (
-            <ul className="divide-y divide-white/[0.04]">
+            <ul className="divide-y divide-slate-200">
               {recentOrders.map((o) => (
                 <li key={o.id} className="flex items-center justify-between py-2.5">
                   <div className="min-w-0">
-                    <div className="text-[13px] text-white truncate">{o.items.map((i) => i.name).join(", ")}</div>
-                    <div className="text-[11.5px] text-zinc-500">{o.user_email}</div>
+                    <div className="text-[13px] text-slate-900 truncate">{o.items.map((i) => i.name).join(", ")}</div>
+                    <div className="text-[11.5px] text-slate-500">{o.user_email}</div>
                   </div>
                   <div className="text-right shrink-0 pl-3">
-                    <div className="text-[13px] text-white">${o.total.toFixed(2)}</div>
-                    <div className={`text-[11px] ${o.status === "paid" ? "text-emerald-300" : "text-amber-300"}`}>{o.status}</div>
+                    <div className="text-[13px] text-slate-900">${o.total.toFixed(2)}</div>
+                    <div className={`text-[11px] ${o.status === "paid" ? "text-emerald-600" : "text-amber-600"}`}>{o.status}</div>
                   </div>
                 </li>
               ))}
@@ -69,14 +69,14 @@ export default function AdminDashboard() {
           {recentLeads.length === 0 ? (
             <Empty msg="No leads yet." />
           ) : (
-            <ul className="divide-y divide-white/[0.04]">
+            <ul className="divide-y divide-slate-200">
               {recentLeads.map((l) => (
                 <li key={l.id} className="py-2.5">
                   <div className="flex items-center justify-between">
-                    <div className="text-[13px] text-white">{l.name}</div>
-                    <div className="text-[11px] text-zinc-500">{new Date(l.created_at).toLocaleDateString()}</div>
+                    <div className="text-[13px] text-slate-900">{l.name}</div>
+                    <div className="text-[11px] text-slate-500">{new Date(l.created_at).toLocaleDateString()}</div>
                   </div>
-                  <div className="text-[12px] text-zinc-400 truncate mt-0.5">{l.email} · {l.topic}</div>
+                  <div className="text-[12px] text-slate-600 truncate mt-0.5">{l.email} · {l.topic}</div>
                 </li>
               ))}
             </ul>
@@ -89,17 +89,17 @@ export default function AdminDashboard() {
 
 function Stat({ label, value, icon: Icon, accent }) {
   const colors = accent === "emerald"
-    ? "bg-emerald-500/10 border-emerald-400/30 text-emerald-300"
-    : "bg-blue-500/10 border-blue-400/30 text-blue-300";
+    ? "bg-emerald-500/10 border-emerald-400/30 text-emerald-600"
+    : "bg-blue-500/10 border-blue-400/30 text-blue-600";
   return (
     <div className="glass rounded-2xl p-5">
       <div className="flex items-center justify-between">
-        <span className="text-[12px] text-zinc-500">{label}</span>
+        <span className="text-[12px] text-slate-500">{label}</span>
         <div className={`h-7 w-7 rounded-lg border flex items-center justify-center ${colors}`}>
           <Icon className="h-3.5 w-3.5" />
         </div>
       </div>
-      <div className="mt-2 font-display text-[28px] text-white font-semibold tracking-tight">{value}</div>
+      <div className="mt-2 font-display text-[28px] text-slate-900 font-semibold tracking-tight">{value}</div>
     </div>
   );
 }
@@ -108,8 +108,8 @@ function Card({ title, link, children }) {
   return (
     <div className="glass rounded-2xl p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-display text-[18px] text-white font-medium">{title}</h3>
-        {link && <Link to={link.to} className="text-[12.5px] text-blue-300 hover:text-blue-200">{link.label}</Link>}
+        <h3 className="font-display text-[18px] text-slate-900 font-medium">{title}</h3>
+        {link && <Link to={link.to} className="text-[12.5px] text-blue-600 hover:text-blue-700">{link.label}</Link>}
       </div>
       {children}
     </div>
@@ -117,5 +117,5 @@ function Card({ title, link, children }) {
 }
 
 function Empty({ msg }) {
-  return <div className="text-[13px] text-zinc-500 py-4">{msg}</div>;
+  return <div className="text-[13px] text-slate-500 py-4">{msg}</div>;
 }

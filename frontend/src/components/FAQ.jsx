@@ -33,14 +33,14 @@ export default function FAQ({ heading = true, limit }) {
               >
                 <button
                   onClick={() => setOpen(isOpen ? -1 : i)}
-                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-white/[0.02] transition-colors"
+                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-slate-900/[0.025] transition-colors"
                 >
-                  <span className="text-[15px] text-white font-medium">{it.q}</span>
+                  <span className="text-[15px] text-slate-900 font-medium">{it.q}</span>
                   <span className="h-7 w-7 rounded-full glass flex items-center justify-center shrink-0">
                     {isOpen ? (
-                      <Minus className="h-3.5 w-3.5 text-blue-300" />
+                      <Minus className="h-3.5 w-3.5 text-blue-600" />
                     ) : (
-                      <Plus className="h-3.5 w-3.5 text-zinc-300" />
+                      <Plus className="h-3.5 w-3.5 text-slate-700" />
                     )}
                   </span>
                 </button>
@@ -52,7 +52,7 @@ export default function FAQ({ heading = true, limit }) {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.25 }}
                     >
-                      <div className="px-5 pb-5 text-[14px] text-zinc-400 leading-relaxed">
+                      <div className="px-5 pb-5 text-[14px] text-slate-600 leading-relaxed">
                         {it.a}
                       </div>
                     </motion.div>

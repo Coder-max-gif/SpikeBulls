@@ -33,17 +33,17 @@ export default function FinalCTA() {
           </div>
 
           <div className="relative">
-            <div className="inline-flex glass rounded-full px-3 py-1 text-[11.5px] uppercase tracking-[0.18em] text-zinc-300 items-center gap-1">
+            <div className="inline-flex glass rounded-full px-3 py-1 text-[11.5px] uppercase tracking-[0.18em] text-slate-700 items-center gap-1">
               <Sparkles className="h-3 w-3 text-blue-400" /> Ready when you are
             </div>
             <h2 className="mt-6 font-display text-[36px] sm:text-[56px] font-semibold tracking-tight leading-[1.05]">
-              <span className="text-white">Stop trading on </span>
+              <span className="text-slate-900">Stop trading on </span>
               <span className="text-gradient-accent">hope.</span>
               <br />
-              <span className="text-white">Start trading on </span>
+              <span className="text-slate-900">Start trading on </span>
               <span className="text-gradient-accent">data.</span>
             </h2>
-            <p className="mt-5 text-zinc-400 text-[15px] sm:text-[17px] max-w-xl mx-auto">
+            <p className="mt-5 text-slate-600 text-[15px] sm:text-[17px] max-w-xl mx-auto">
               Join thousands of traders running our indicator and algo strategy in live markets every day.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

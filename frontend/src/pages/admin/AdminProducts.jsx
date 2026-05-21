@@ -47,19 +47,19 @@ export default function AdminProducts() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-[32px] text-white font-semibold tracking-tight">Products</h1>
-          <p className="text-zinc-400 text-[14px] mt-1">Manage your catalog. Changes are live immediately.</p>
+          <h1 className="font-display text-[32px] text-slate-900 font-semibold tracking-tight">Products</h1>
+          <p className="text-slate-600 text-[14px] mt-1">Manage your catalog. Changes are live immediately.</p>
         </div>
         <button onClick={() => setEditing({ ...BLANK })} className="btn-primary !py-2.5">
           <Plus className="h-4 w-4" /> New product
         </button>
       </div>
 
-      {loading ? <Loader2 className="h-5 w-5 animate-spin text-zinc-500" /> : (
+      {loading ? <Loader2 className="h-5 w-5 animate-spin text-slate-500" /> : (
         <div className="glass rounded-2xl overflow-hidden">
           <table className="w-full text-[13.5px]">
             <thead>
-              <tr className="text-left text-zinc-500 text-[11.5px] uppercase tracking-wider border-b border-white/[0.05]">
+              <tr className="text-left text-slate-500 text-[11.5px] uppercase tracking-wider border-b border-slate-200">
                 <th className="px-5 py-3">Product</th>
                 <th className="px-5 py-3">Category</th>
                 <th className="px-5 py-3">Price</th>
@@ -69,22 +69,22 @@ export default function AdminProducts() {
             </thead>
             <tbody>
               {products.map((p) => (
-                <tr key={p.id} className="border-b border-white/[0.03] last:border-0">
+                <tr key={p.id} className="border-b border-slate-100 last:border-0">
                   <td className="px-5 py-3">
-                    <div className="text-white">{p.name}</div>
-                    <div className="text-[11.5px] text-zinc-500">{p.slug}</div>
+                    <div className="text-slate-900">{p.name}</div>
+                    <div className="text-[11.5px] text-slate-500">{p.slug}</div>
                   </td>
-                  <td className="px-5 py-3 text-zinc-300">{p.category}</td>
-                  <td className="px-5 py-3 text-white">${p.price.toFixed(0)}</td>
+                  <td className="px-5 py-3 text-slate-700">{p.category}</td>
+                  <td className="px-5 py-3 text-slate-900">${p.price.toFixed(0)}</td>
                   <td className="px-5 py-3">
-                    <span className={`px-2 py-0.5 rounded-md text-[11px] ${p.status === "active" ? "bg-emerald-500/10 text-emerald-300" : "bg-zinc-500/15 text-zinc-300"}`}>{p.status}</span>
-                    {p.highlight && <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] bg-blue-500/10 text-blue-300">highlight</span>}
+                    <span className={`px-2 py-0.5 rounded-md text-[11px] ${p.status === "active" ? "bg-emerald-500/10 text-emerald-600" : "bg-zinc-500/15 text-slate-700"}`}>{p.status}</span>
+                    {p.highlight && <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] bg-blue-500/10 text-blue-600">highlight</span>}
                   </td>
                   <td className="px-5 py-3 text-right">
-                    <button onClick={() => setEditing(p)} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[12px] text-zinc-300 hover:text-white hover:bg-white/[0.04]">
+                    <button onClick={() => setEditing(p)} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[12px] text-slate-700 hover:text-slate-900 hover:bg-slate-100">
                       <Pencil className="h-3.5 w-3.5" /> Edit
                     </button>
-                    <button onClick={() => onDelete(p.id)} className="ml-1 inline-flex items-center gap-1 px-2 py-1 rounded-md text-[12px] text-rose-300 hover:bg-rose-500/10">
+                    <button onClick={() => onDelete(p.id)} className="ml-1 inline-flex items-center gap-1 px-2 py-1 rounded-md text-[12px] text-rose-600 hover:bg-rose-500/10">
                       <Trash2 className="h-3.5 w-3.5" /> Delete
                     </button>
                   </td>
@@ -166,14 +166,14 @@ function ProductDrawer({ initial, onClose, onSaved }) {
       <motion.div
         initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
         transition={{ type: "tween", duration: 0.25 }}
-        className="relative w-full sm:w-[560px] bg-[#0A0B11] border-l border-white/[0.06] overflow-y-auto"
+        className="relative w-full sm:w-[560px] bg-white border-l border-slate-200 overflow-y-auto"
       >
-        <div className="sticky top-0 bg-[#0A0B11] z-10 flex items-center justify-between px-6 py-4 border-b border-white/[0.05]">
-          <h2 className="font-display text-[20px] text-white">{initial.id ? "Edit product" : "New product"}</h2>
+        <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-6 py-4 border-b border-slate-200">
+          <h2 className="font-display text-[20px] text-slate-900">{initial.id ? "Edit product" : "New product"}</h2>
           <button onClick={onClose} className="h-8 w-8 rounded-md glass flex items-center justify-center"><X className="h-4 w-4" /></button>
         </div>
         <form onSubmit={submit} className="p-6 space-y-4">
-          {error && <div className="rounded-lg bg-rose-500/10 border border-rose-500/30 px-3 py-2 text-[13px] text-rose-200">{error}</div>}
+          {error && <div className="rounded-lg bg-rose-500/10 border border-rose-500/30 px-3 py-2 text-[13px] text-rose-700">{error}</div>}
           <Row><L label="Name"><Input v={form.name} on={(v) => set("name", v)} required /></L></Row>
           <Row><L label="Slug (URL)"><Input v={form.slug} on={(v) => set("slug", v)} placeholder="auto-generated if empty" /></L></Row>
           <div className="grid grid-cols-2 gap-3">
@@ -211,12 +211,12 @@ function ProductDrawer({ initial, onClose, onSaved }) {
             ]} /></L>
             <L label="Badge (optional)"><Input v={form.badge || ""} on={(v) => set("badge", v)} placeholder="Most Popular" /></L>
           </div>
-          <label className="flex items-center gap-2 text-[13px] text-zinc-300">
+          <label className="flex items-center gap-2 text-[13px] text-slate-700">
             <input type="checkbox" checked={!!form.highlight} onChange={(e) => set("highlight", e.target.checked)} />
             Highlight on landing page
           </label>
 
-          <div className="sticky bottom-0 -mx-6 mt-6 px-6 py-4 bg-[#0A0B11] border-t border-white/[0.05] flex gap-2">
+          <div className="sticky bottom-0 -mx-6 mt-6 px-6 py-4 bg-white border-t border-slate-200 flex gap-2">
             <button disabled={saving} className="btn-primary flex-1">
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Check className="h-4 w-4" /> Save</>}
             </button>
@@ -229,7 +229,7 @@ function ProductDrawer({ initial, onClose, onSaved }) {
 }
 
 function Row({ children }) { return <div>{children}</div>; }
-function L({ label, children }) { return <label className="block"><span className="text-[12px] text-zinc-400">{label}</span><div className="mt-2">{children}</div></label>; }
-function Input({ v, on, type = "text", ...rest }) { return <input type={type} value={v ?? ""} onChange={(e) => on(e.target.value)} className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-[13.5px] text-white placeholder:text-zinc-500 focus:outline-none focus:border-blue-400/50" {...rest} />; }
-function Textarea({ v, on, rows, ...rest }) { return <textarea value={v} onChange={(e) => on(e.target.value)} rows={rows} className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-[13.5px] text-white placeholder:text-zinc-500 focus:outline-none focus:border-blue-400/50 resize-none" {...rest} />; }
-function Select({ v, on, options }) { return <select value={v} onChange={(e) => on(e.target.value)} className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-[13.5px] text-white focus:outline-none focus:border-blue-400/50">{options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}</select>; }
+function L({ label, children }) { return <label className="block"><span className="text-[12px] text-slate-600">{label}</span><div className="mt-2">{children}</div></label>; }
+function Input({ v, on, type = "text", ...rest }) { return <input type={type} value={v ?? ""} onChange={(e) => on(e.target.value)} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-[13.5px] text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-blue-400/50" {...rest} />; }
+function Textarea({ v, on, rows, ...rest }) { return <textarea value={v} onChange={(e) => on(e.target.value)} rows={rows} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-[13.5px] text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-blue-400/50 resize-none" {...rest} />; }
+function Select({ v, on, options }) { return <select value={v} onChange={(e) => on(e.target.value)} className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-[13.5px] text-slate-900 focus:outline-none focus:border-blue-400/50">{options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}</select>; }

@@ -55,13 +55,13 @@ export default function ProductDetailPage() {
   if (loading) {
     return (
       <main className="bg-app min-h-screen flex items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+        <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
       </main>
     );
   }
   if (error || !product) {
     return (
-      <main className="bg-app min-h-screen flex items-center justify-center text-zinc-400">
+      <main className="bg-app min-h-screen flex items-center justify-center text-slate-600">
         <div className="text-center">
           <p>Product not found.</p>
           <Link to="/products" className="mt-4 inline-block btn-primary">Back to catalog</Link>
@@ -78,20 +78,20 @@ export default function ProductDetailPage() {
       <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0 grid-overlay" />
         <div className="relative mx-auto max-w-7xl px-5">
-          <button onClick={() => navigate("/products")} className="inline-flex items-center gap-2 text-[13px] text-zinc-400 hover:text-white transition-colors mb-8">
+          <button onClick={() => navigate("/products")} className="inline-flex items-center gap-2 text-[13px] text-slate-600 hover:text-slate-900 transition-colors mb-8">
             <ArrowLeft className="h-3.5 w-3.5" /> Back to products
           </button>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <div className={`inline-flex items-center gap-2 glass rounded-full px-3 py-1 text-[11.5px] uppercase tracking-[0.18em] ${isViolet ? "text-violet-300" : "text-blue-300"}`}>
+              <div className={`inline-flex items-center gap-2 glass rounded-full px-3 py-1 text-[11.5px] uppercase tracking-[0.18em] ${isViolet ? "text-violet-600" : "text-blue-600"}`}>
                 <Icon className="h-3.5 w-3.5" />
                 {product.category}
               </div>
-              <h1 className="mt-5 font-display text-[44px] sm:text-[58px] font-semibold tracking-tight leading-[1.05] text-white">
+              <h1 className="mt-5 font-display text-[44px] sm:text-[58px] font-semibold tracking-tight leading-[1.05] text-slate-900">
                 {product.name}
               </h1>
-              <p className="mt-5 text-zinc-400 text-[16px] sm:text-[17px] leading-relaxed max-w-xl">
+              <p className="mt-5 text-slate-600 text-[16px] sm:text-[17px] leading-relaxed max-w-xl">
                 {product.description}
               </p>
 
@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
                         className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
                           selectedTier === index
                             ? (isViolet ? "border-violet-500 bg-violet-500/10" : "border-blue-500 bg-blue-500/10")
-                            : "border-white/10 bg-white/[0.02] hover:border-white/20"
+                            : "border-slate-200 bg-slate-900/[0.025] hover:border-slate-300"
                         }`}
                       >
                         <div className="flex items-center justify-between">
@@ -121,17 +121,17 @@ export default function ProductDetailPage() {
                                 }`} />
                               )}
                             </div>
-                            <span className="font-medium text-white">{tier.name}</span>
+                            <span className="font-medium text-slate-900">{tier.name}</span>
                             {tier.badge && (
-                              <span className="text-[11px] px-2 py-0.5 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-white">
+                              <span className="text-[11px] px-2 py-0.5 rounded-full bg-gradient-to-r from-blue-500 to-violet-500 text-slate-900">
                                 {tier.badge}
                               </span>
                             )}
                           </div>
                           <div className="flex items-baseline gap-2">
-                            <span className="font-display text-[28px] text-white font-semibold">${tier.price.toFixed(0)}</span>
+                            <span className="font-display text-[28px] text-slate-900 font-semibold">${tier.price.toFixed(0)}</span>
                             {tier.compare_at_price && tier.compare_at_price > tier.price && (
-                              <span className="text-[14px] text-zinc-500 line-through">${tier.compare_at_price.toFixed(0)}</span>
+                              <span className="text-[14px] text-slate-500 line-through">${tier.compare_at_price.toFixed(0)}</span>
                             )}
                           </div>
                         </div>
@@ -139,7 +139,7 @@ export default function ProductDetailPage() {
                     ))}
                   </div>
 
-                  {buyError && <p className="mt-3 text-[13px] text-rose-300">{buyError}</p>}
+                  {buyError && <p className="mt-3 text-[13px] text-rose-600">{buyError}</p>}
 
                   <div className="mt-4 flex flex-wrap items-center gap-3">
                     <button 
@@ -160,16 +160,16 @@ export default function ProductDetailPage() {
               ) : (
                 <>
                   <div className="mt-7 flex items-baseline gap-3">
-                    <span className="font-display text-[48px] text-white font-semibold tracking-tight">${product.price.toFixed(0)}</span>
+                    <span className="font-display text-[48px] text-slate-900 font-semibold tracking-tight">${product.price.toFixed(0)}</span>
                     {product.compare_at_price && product.compare_at_price > product.price && (
-                      <span className="text-[16px] text-zinc-500 line-through">${product.compare_at_price.toFixed(0)}</span>
+                      <span className="text-[16px] text-slate-500 line-through">${product.compare_at_price.toFixed(0)}</span>
                     )}
-                    <span className="text-[13px] text-zinc-500">
+                    <span className="text-[13px] text-slate-500">
                       · {product.delivery_type === "membership" ? "30-day membership" : "Lifetime license"}
                     </span>
                   </div>
 
-                  {buyError && <p className="mt-3 text-[13px] text-rose-300">{buyError}</p>}
+                  {buyError && <p className="mt-3 text-[13px] text-rose-600">{buyError}</p>}
 
                   <div className="mt-6 flex flex-wrap items-center gap-3">
                     <button onClick={handleBuy} disabled={buying} className="btn-primary" style={isViolet ? {
@@ -186,7 +186,7 @@ export default function ProductDetailPage() {
 
               <ul className="mt-8 grid sm:grid-cols-2 gap-x-4 gap-y-2.5">
                 {(product.features || []).map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-[13.5px] text-zinc-300">
+                  <li key={f} className="flex items-start gap-2 text-[13.5px] text-slate-700">
                     <Check className={`h-4 w-4 mt-0.5 shrink-0 ${isViolet ? "text-violet-400" : "text-blue-400"}`} />
                     <span>{f}</span>
                   </li>
@@ -195,7 +195,7 @@ export default function ProductDetailPage() {
 
               <div className="mt-6 flex flex-wrap items-center gap-2">
                 {(product.platforms || []).map((pl) => (
-                  <span key={pl} className="text-[11px] text-zinc-400 px-2 py-1 rounded-md bg-white/[0.04] border border-white/5">
+                  <span key={pl} className="text-[11px] text-slate-600 px-2 py-1 rounded-md bg-slate-100 border border-slate-200">
                     {pl}
                   </span>
                 ))}
@@ -215,13 +215,13 @@ export default function ProductDetailPage() {
             <div className="glass-strong rounded-2xl overflow-hidden">
               <div className="relative aspect-[21/9]">
                 <img src={product.images[0]} alt={product.name} className="absolute inset-0 w-full h-full object-cover opacity-55" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#06070B] via-[#06070B]/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#F8FAFC] via-white/30 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                   <div>
-                    <div className="text-[12px] text-zinc-400">Preview</div>
-                    <div className="font-display text-[22px] text-white font-medium">{product.name}</div>
+                    <div className="text-[12px] text-slate-600">Preview</div>
+                    <div className="font-display text-[22px] text-slate-900 font-medium">{product.name}</div>
                   </div>
-                  <span className="glass rounded-lg px-3 py-2 text-[12px] text-emerald-300 flex items-center gap-1">
+                  <span className="glass rounded-lg px-3 py-2 text-[12px] text-emerald-600 flex items-center gap-1">
                     <ShieldCheck className="h-3.5 w-3.5" /> Verified by SpikeBulls
                   </span>
                 </div>
@@ -235,10 +235,10 @@ export default function ProductDetailPage() {
         <div className="mx-auto max-w-3xl px-5">
           <div className="glass rounded-2xl p-6">
             <div className="flex items-center gap-3">
-              <Calendar className="h-5 w-5 text-blue-300" />
+              <Calendar className="h-5 w-5 text-blue-600" />
               <div>
-                <div className="text-[12px] text-zinc-500">Delivery</div>
-                <div className="text-[14.5px] text-white">
+                <div className="text-[12px] text-slate-500">Delivery</div>
+                <div className="text-[14.5px] text-slate-900">
                   {product.delivery_type === "membership"
                     ? "30-day rolling membership · Telegram / Discord / Email"
                     : product.delivery_type === "download"

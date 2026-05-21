@@ -64,7 +64,7 @@ export default function Hero() {
           className="flex items-center gap-2 w-fit mx-auto glass-strong rounded-full px-3 py-1.5 mb-7"
         >
           <Sparkles className="h-3.5 w-3.5 text-blue-400 animate-pulse" />
-          <span className="text-[12px] text-zinc-300">
+          <span className="text-[12px] text-slate-700">
             v4.2 · Adaptive volatility engine is live
           </span>
         </motion.div>
@@ -77,7 +77,7 @@ export default function Hero() {
         >
           <span className="text-gradient">Institutional-grade</span>
           <br />
-          <span className="text-white">trading tools for the </span>
+          <span className="text-slate-900">trading tools for the </span>
           <span className="text-gradient-accent">modern trader</span>
         </motion.h1>
 
@@ -85,7 +85,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
-          className="mt-6 text-center text-zinc-400 text-[16px] sm:text-[18px] max-w-2xl mx-auto leading-relaxed"
+          className="mt-6 text-center text-slate-600 text-[16px] sm:text-[18px] max-w-2xl mx-auto leading-relaxed"
         >
           A precision MT5 indicator suite and a fully automated algo strategy —
           engineered for traders who refuse to leave money on the table.
@@ -116,7 +116,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.35 }}
-          className="mt-5 flex items-center justify-center gap-2 text-[12px] text-zinc-500"
+          className="mt-5 flex items-center justify-center gap-2 text-[12px] text-slate-500"
         >
           <ShieldCheck className="h-3.5 w-3.5 text-emerald-400/80" />
           14-day demo license available · No card required
@@ -128,7 +128,7 @@ export default function Hero() {
       </div>
 
       {/* bottom fade */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-[#06070B]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-[#F8FAFC]" />
     </section>
   );
 }

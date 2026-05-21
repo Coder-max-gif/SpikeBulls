@@ -76,10 +76,10 @@ export default function Navbar() {
           }`}
         >
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative h-10 w-10 rounded-lg flex items-center justify-center overflow-hidden bg-white/10">
+            <div className="relative h-10 w-10 rounded-lg flex items-center justify-center overflow-hidden bg-slate-100">
               <img src="/spikebulls-logo.png" alt="SpikeBulls Logo" className="h-full w-full object-contain" />
             </div>
-            <span className="font-display text-[17px] font-semibold tracking-tight text-white">
+            <span className="font-display text-[17px] font-semibold tracking-tight text-slate-900">
               {BRAND.name}
             </span>
           </Link>
@@ -89,8 +89,8 @@ export default function Navbar() {
               <button
                 key={link.label}
                 onClick={() => handleNav(link.href)}
-                className={`px-4 py-2 text-[15px] font-medium transition-colors rounded-lg hover:bg-white/[0.06] ${
-                  location.pathname === link.href ? "text-white" : "text-zinc-300 hover:text-white"
+                className={`px-4 py-2 text-[15px] font-medium transition-colors rounded-lg hover:bg-slate-200 ${
+                  location.pathname === link.href ? "text-slate-900" : "text-slate-700 hover:text-slate-900"
                 }`}
               >
                 {link.label}
@@ -103,13 +103,13 @@ export default function Navbar() {
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setUserMenu(!userMenu)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg glass hover:border-white/15 transition-colors"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg glass hover:border-slate-300 transition-colors"
                 >
-                  <div className="h-7 w-7 rounded-full bg-gradient-to-br from-blue-500/30 to-violet-500/30 border border-white/10 flex items-center justify-center text-[11px] font-medium text-white">
+                  <div className="h-7 w-7 rounded-full bg-gradient-to-br from-blue-500/30 to-violet-500/30 border border-slate-200 flex items-center justify-center text-[11px] font-medium text-slate-900">
                     {user.name?.split(" ").map((n) => n[0]).slice(0, 2).join("") || "U"}
                   </div>
-                  <span className="text-[13px] text-white max-w-[120px] truncate">{user.name}</span>
-                  <ChevronDown className="h-3 w-3 text-zinc-300" />
+                  <span className="text-[13px] text-slate-900 max-w-[120px] truncate">{user.name}</span>
+                  <ChevronDown className="h-3 w-3 text-slate-700" />
                 </button>
                 <AnimatePresence>
                   {userMenu && (
@@ -124,11 +124,11 @@ export default function Navbar() {
                       <MenuItem icon={User} label="Account" onClick={() => { setUserMenu(false); navigate("/dashboard?tab=account"); }} />
                       {isAdmin && (
                         <>
-                          <div className="my-1 h-px bg-white/[0.06]" />
+                          <div className="my-1 h-px bg-slate-200" />
                           <MenuItem icon={Shield} label="Admin Panel" onClick={() => { setUserMenu(false); navigate("/admin"); }} accent />
                         </>
                       )}
-                      <div className="my-1 h-px bg-white/[0.06]" />
+                      <div className="my-1 h-px bg-slate-200" />
                       <MenuItem icon={LogOut} label="Log out" onClick={handleLogout} danger />
                     </motion.div>
                   )}
@@ -138,7 +138,7 @@ export default function Navbar() {
               <>
                 <button
                   onClick={() => navigate("/login")}
-                  className="text-[15px] font-medium text-zinc-200 hover:text-white transition-colors px-3 py-2"
+                  className="text-[15px] font-medium text-slate-800 hover:text-slate-900 transition-colors px-3 py-2"
                 >
                   Sign in
                 </button>
@@ -171,29 +171,29 @@ export default function Navbar() {
                 <button
                   key={link.label}
                   onClick={() => handleNav(link.href)}
-                  className="text-left px-4 py-3 text-[15px] text-zinc-300 hover:text-white hover:bg-white/[0.04] rounded-lg"
+                  className="text-left px-4 py-3 text-[15px] text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg"
                 >
                   {link.label}
                 </button>
               ))}
-              <div className="my-1 h-px bg-white/[0.06]" />
+              <div className="my-1 h-px bg-slate-200" />
               {user ? (
                 <>
-                  <button onClick={() => { setOpen(false); navigate("/dashboard"); }} className="text-left px-4 py-3 text-[15px] text-zinc-200 hover:bg-white/[0.04] rounded-lg">
+                  <button onClick={() => { setOpen(false); navigate("/dashboard"); }} className="text-left px-4 py-3 text-[15px] text-slate-800 hover:bg-slate-100 rounded-lg">
                     Dashboard
                   </button>
                   {isAdmin && (
-                    <button onClick={() => { setOpen(false); navigate("/admin"); }} className="text-left px-4 py-3 text-[15px] text-blue-300 hover:bg-white/[0.04] rounded-lg">
+                    <button onClick={() => { setOpen(false); navigate("/admin"); }} className="text-left px-4 py-3 text-[15px] text-blue-600 hover:bg-slate-100 rounded-lg">
                       Admin Panel
                     </button>
                   )}
-                  <button onClick={handleLogout} className="text-left px-4 py-3 text-[15px] text-rose-300 hover:bg-white/[0.04] rounded-lg">
+                  <button onClick={handleLogout} className="text-left px-4 py-3 text-[15px] text-rose-600 hover:bg-slate-100 rounded-lg">
                     Log out
                   </button>
                 </>
               ) : (
                 <>
-                  <button onClick={() => { setOpen(false); navigate("/login"); }} className="text-left px-4 py-3 text-[15px] text-zinc-200 hover:bg-white/[0.04] rounded-lg">
+                  <button onClick={() => { setOpen(false); navigate("/login"); }} className="text-left px-4 py-3 text-[15px] text-slate-800 hover:bg-slate-100 rounded-lg">
                     Sign in
                   </button>
                   <button onClick={() => { setOpen(false); navigate("/register"); }} className="btn-primary mt-2">
@@ -213,8 +213,8 @@ function MenuItem({ icon: Icon, label, onClick, danger, accent }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[13.5px] hover:bg-white/[0.05] transition-colors ${
-        danger ? "text-rose-300" : accent ? "text-blue-300" : "text-zinc-200"
+      className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[13.5px] hover:bg-slate-100 transition-colors ${
+        danger ? "text-rose-600" : accent ? "text-blue-600" : "text-slate-800"
       }`}
     >
       <Icon className="h-4 w-4" />

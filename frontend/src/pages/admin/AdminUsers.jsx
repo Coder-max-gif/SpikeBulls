@@ -24,34 +24,34 @@ export default function AdminUsers() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-[32px] text-white font-semibold tracking-tight">Users</h1>
-        <p className="text-zinc-400 text-[14px] mt-1">{users.length} registered accounts</p>
+        <h1 className="font-display text-[32px] text-slate-900 font-semibold tracking-tight">Users</h1>
+        <p className="text-slate-600 text-[14px] mt-1">{users.length} registered accounts</p>
       </div>
-      {loading ? <Loader2 className="h-5 w-5 animate-spin text-zinc-500" /> : (
+      {loading ? <Loader2 className="h-5 w-5 animate-spin text-slate-500" /> : (
         <div className="glass rounded-2xl overflow-hidden overflow-x-auto">
           <table className="w-full text-[13px]">
-            <thead><tr className="text-left text-zinc-500 text-[11.5px] uppercase tracking-wider border-b border-white/[0.05]">
+            <thead><tr className="text-left text-slate-500 text-[11.5px] uppercase tracking-wider border-b border-slate-200">
               <th className="px-5 py-3">Name</th><th className="px-5 py-3">Email</th><th className="px-5 py-3">Role</th><th className="px-5 py-3">Status</th><th className="px-5 py-3">Joined</th><th className="px-5 py-3 text-right">Actions</th>
             </tr></thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.id} className="border-b border-white/[0.03] last:border-0">
-                  <td className="px-5 py-3 text-white">{u.name}</td>
-                  <td className="px-5 py-3 text-zinc-200">{u.email}</td>
+                <tr key={u.id} className="border-b border-slate-100 last:border-0">
+                  <td className="px-5 py-3 text-slate-900">{u.name}</td>
+                  <td className="px-5 py-3 text-slate-800">{u.email}</td>
                   <td className="px-5 py-3">
-                    <span className={`px-2 py-0.5 rounded-md text-[11px] ${u.role === "admin" ? "bg-violet-500/15 text-violet-300" : "bg-blue-500/10 text-blue-300"}`}>{u.role}</span>
+                    <span className={`px-2 py-0.5 rounded-md text-[11px] ${u.role === "admin" ? "bg-violet-500/15 text-violet-600" : "bg-blue-500/10 text-blue-600"}`}>{u.role}</span>
                   </td>
                   <td className="px-5 py-3">
-                    <span className={`px-2 py-0.5 rounded-md text-[11px] ${u.is_active ? "bg-emerald-500/10 text-emerald-300" : "bg-zinc-500/15 text-zinc-300"}`}>{u.is_active ? "active" : "disabled"}</span>
+                    <span className={`px-2 py-0.5 rounded-md text-[11px] ${u.is_active ? "bg-emerald-500/10 text-emerald-600" : "bg-zinc-500/15 text-slate-700"}`}>{u.is_active ? "active" : "disabled"}</span>
                   </td>
-                  <td className="px-5 py-3 text-zinc-400">{new Date(u.created_at).toLocaleDateString()}</td>
+                  <td className="px-5 py-3 text-slate-600">{new Date(u.created_at).toLocaleDateString()}</td>
                   <td className="px-5 py-3 text-right">
                     <button onClick={() => setRole(u.id, u.role === "admin" ? "user" : "admin")}
-                      className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[12px] text-zinc-300 hover:text-white hover:bg-white/[0.04]">
+                      className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[12px] text-slate-700 hover:text-slate-900 hover:bg-slate-100">
                       <UserCog className="h-3.5 w-3.5" /> {u.role === "admin" ? "Demote" : "Promote"}
                     </button>
                     <button onClick={() => toggleActive(u.id, !u.is_active)}
-                      className={`ml-1 inline-flex items-center gap-1 px-2 py-1 rounded-md text-[12px] ${u.is_active ? "text-rose-300 hover:bg-rose-500/10" : "text-emerald-300 hover:bg-emerald-500/10"}`}>
+                      className={`ml-1 inline-flex items-center gap-1 px-2 py-1 rounded-md text-[12px] ${u.is_active ? "text-rose-600 hover:bg-rose-500/10" : "text-emerald-600 hover:bg-emerald-500/10"}`}>
                       {u.is_active ? <ShieldOff className="h-3.5 w-3.5" /> : <Shield className="h-3.5 w-3.5" />}
                       {u.is_active ? "Disable" : "Enable"}
                     </button>

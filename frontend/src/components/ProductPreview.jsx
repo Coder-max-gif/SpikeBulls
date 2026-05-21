@@ -25,7 +25,7 @@ export default function ProductPreview() {
 
         {loading ? (
           <div className="mt-14 flex justify-center">
-            <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+            <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
           </div>
         ) : (
           <div className="mt-14 grid lg:grid-cols-2 gap-5">
@@ -84,19 +84,19 @@ function ProductCard({ product, accent, Icon, eyebrow, badges, onClick }) {
           <div
             className={`h-10 w-10 rounded-lg border flex items-center justify-center ${
               isBlue
-                ? "bg-blue-500/15 border-blue-400/30 text-blue-300"
-                : "bg-violet-500/15 border-violet-400/30 text-violet-300"
+                ? "bg-blue-500/15 border-blue-400/30 text-blue-600"
+                : "bg-violet-500/15 border-violet-400/30 text-violet-600"
             }`}
           >
             <Icon className="h-5 w-5" />
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-wider text-zinc-500">{eyebrow}</div>
-            <h3 className="font-display text-[22px] text-white font-medium">{product.name}</h3>
+            <div className="text-[11px] uppercase tracking-wider text-slate-500">{eyebrow}</div>
+            <h3 className="font-display text-[22px] text-slate-900 font-medium">{product.name}</h3>
           </div>
         </div>
 
-        <div className="relative rounded-xl overflow-hidden border border-white/5 aspect-[16/10] bg-[#0A0C13]">
+        <div className="relative rounded-xl overflow-hidden border border-slate-200 aspect-[16/10] bg-slate-50">
           {image && (
             <img
               src={image}
@@ -104,22 +104,22 @@ function ProductCard({ product, accent, Icon, eyebrow, badges, onClick }) {
               className="absolute inset-0 w-full h-full object-cover opacity-50"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#06070B] via-[#06070B]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F8FAFC] via-white/40 to-transparent" />
           <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-            <span className="glass rounded-md px-2.5 py-1.5 text-[11px] text-white">{eyebrow}</span>
-            <span className="glass rounded-md px-2.5 py-1.5 text-[11px] text-emerald-300">
+            <span className="glass rounded-md px-2.5 py-1.5 text-[11px] text-slate-900">{eyebrow}</span>
+            <span className="glass rounded-md px-2.5 py-1.5 text-[11px] text-emerald-600">
               ${product.price.toFixed(0)}
             </span>
           </div>
         </div>
 
-        <p className="mt-4 text-[14px] text-zinc-400 leading-relaxed">{product.short_description}</p>
+        <p className="mt-4 text-[14px] text-slate-600 leading-relaxed">{product.short_description}</p>
 
         <div className="mt-5 grid grid-cols-3 gap-2">
           {badges.map((b, i) => (
             <div key={i} className="glass rounded-lg p-3 flex items-center gap-2">
-              <b.Icon className={`h-4 w-4 ${isBlue ? "text-blue-300" : "text-violet-300"}`} />
-              <span className="text-[12px] text-zinc-300">{b.label}</span>
+              <b.Icon className={`h-4 w-4 ${isBlue ? "text-blue-600" : "text-violet-600"}`} />
+              <span className="text-[12px] text-slate-700">{b.label}</span>
             </div>
           ))}
         </div>
