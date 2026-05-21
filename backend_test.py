@@ -11,7 +11,7 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 
 # Base URL from environment
-BASE_URL = "https://elite-trading-fx.preview.emergentagent.com/api"
+BASE_URL = "https://bright-ui-demo.preview.emergentagent.com/api"
 
 # Admin credentials
 ADMIN_EMAIL = "admin@spikebulls.com"

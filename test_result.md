@@ -343,7 +343,7 @@ agent_communication:
            /api/admin/leads, /api/admin/licenses, /api/admin/testimonials.
            Try POST /api/admin/products with a unique slug, PATCH it, DELETE it.
         7) Role enforcement: ensure non-admin user gets 403 on any /api/admin/* route.
-      Use the external URL from REACT_APP_BACKEND_URL (https://elite-trading-fx.preview.emergentagent.com).
+      Use the external URL from REACT_APP_BACKEND_URL (https://bright-ui-demo.preview.emergentagent.com).
       All routes are prefixed with /api.
   - agent: "testing"
     message: |
@@ -384,7 +384,7 @@ agent_communication:
       MINOR ISSUES (NON-BLOCKING):
       1. Products page category filter: Clicking "Forex Signals" filter shows all 6 products instead of filtering to only signals products. Filter chips are visible and clickable but filtering logic may not be working correctly.
       2. Console warning: React key uniqueness warning for component with key "910e170c-d43f-442a-a2ec-dba0dbd1ee75" (likely in a list rendering). Non-critical but should be fixed for best practices.
-      3. Network errors: Multiple CDN RUM (Real User Monitoring) requests failing (https://elite-trading-fx.preview.emergentagent.com/cdn-cgi/rum) - these are Cloudflare analytics requests and don't affect functionality.
+      3. Network errors: Multiple CDN RUM (Real User Monitoring) requests failing (https://bright-ui-demo.preview.emergentagent.com/cdn-cgi/rum) - these are Cloudflare analytics requests and don't affect functionality.
       
       SCREENSHOTS: 23 screenshots captured in .screenshots/ directory documenting all test steps.
       
